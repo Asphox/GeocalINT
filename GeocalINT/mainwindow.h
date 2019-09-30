@@ -11,6 +11,7 @@
 #include <QQmlContext>
 
 #include "serialmanager.h"
+#include "cstatusbar.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,18 +27,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QComboBox* CB_serialPortList = nullptr;
-    QComboBox* CB_serialBaudRate = nullptr;
-    QPushButton* PB_serialConnect = nullptr;
-    QQuickWidget* QW_mainWidget = nullptr;
 
     SerialManager serialManager;
+    CStatusBar*   statusBar;
 
-    void initStatusBar();
-    void initQtConnections();
+    QQuickWidget* QW_mainWidget = nullptr;
     void initMainWidget();
 
-public slots:
-    void updateSerialPortList();
 };
 #endif // MAINWINDOW_H

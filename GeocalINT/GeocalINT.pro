@@ -1,7 +1,5 @@
 QT       += core gui serialport location qml positioning quickwidgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -16,23 +14,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ccombobox.cpp \
+    cserialstatus.cpp \
+    cstatusbar.cpp \
     main.cpp \
     mainwindow.cpp \
     serialmanager.cpp
 
 HEADERS += \
+    ccombobox.h \
+    cserialstatus.h \
+    cstatusbar.h \
     mainwindow.h \
     serialmanager.h
 
 FORMS += \
     mainwindow.ui
 
+RESOURCES += \
+    Resources.qrc
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES +=
-
-RESOURCES += \
-    Resources.qrc
