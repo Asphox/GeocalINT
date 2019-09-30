@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QComboBox>
+#include <QLabel>
+#include <QPushButton>
+
+#include "serialmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +22,16 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QComboBox* CB_serialPortList = nullptr;
+    QComboBox* CB_serialBaudRate = nullptr;
+    QPushButton* PB_serialConnect = nullptr;
+
+    SerialManager serialManager;
+
+    void initStatusBar();
+    void initQtConnections();
+
+public slots:
+    void updateSerialPortList();
 };
 #endif // MAINWINDOW_H
