@@ -16,11 +16,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ccombobox.cpp \
+    cstatuslabel.cpp \
     main.cpp \
     mainwindow.cpp \
     serialmanager.cpp
 
 HEADERS += \
+    ccombobox.h \
+    cstatuslabel.h \
     mainwindow.h \
     serialmanager.h
 

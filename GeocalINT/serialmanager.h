@@ -13,9 +13,14 @@ public:
 
     explicit SerialManager(QObject *parent = nullptr);
 
+    bool connect(const QString& name, const QString& baudrate );
+    void disconnect();
+
     QStringList   getAvailablePorts(bool enableFilterACM_COM = false) const;
     QStringList   getAvailableBaudrates() const;
 
+private:
+    QSerialPort   serialPort;
 
 signals:
 

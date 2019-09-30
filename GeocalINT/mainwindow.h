@@ -5,7 +5,10 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QPushButton>
+#include <QPalette>
 
+#include "ccombobox.h"
+#include "cstatuslabel.h"
 #include "serialmanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -22,9 +25,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QComboBox* CB_serialPortList = nullptr;
+    CComboBox* CB_serialPortList = nullptr;
     QComboBox* CB_serialBaudRate = nullptr;
     QPushButton* PB_serialConnect = nullptr;
+    CStatusLabel* LB_serialStatus = nullptr;
 
     SerialManager serialManager;
 
@@ -33,5 +37,7 @@ private:
 
 public slots:
     void updateSerialPortList();
+    void updatePB_serialConnect();
+    void serialConnect();
 };
 #endif // MAINWINDOW_H
