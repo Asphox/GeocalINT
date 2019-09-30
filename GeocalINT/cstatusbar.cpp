@@ -26,7 +26,12 @@ CStatusBar::CStatusBar(SerialManager* serialManager, QWidget* parent)
 void CStatusBar::updateSerialPortList()
 {
     CB_serialPortList.clear();
+#ifdef CTO_ENABLE_FILTER_SERIAL_PORT_NAME
     CB_serialPortList.addItems(serialManager->getAvailablePorts(true));
+#endif
+#ifndef CTO_ENABLE_FILTER_SERIAL_PORT_NAME
+    CB_serialPortList.addItems(serialManager->getAvailablePorts(false));
+#endif
 }
 
 void CStatusBar::updateSerialBaudrate()
