@@ -5,6 +5,10 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QPushButton>
+#include <QtQuick>
+#include <QQuickWidget>
+#include <QSettings>
+#include <QQmlContext>
 
 #include "serialmanager.h"
 
@@ -25,11 +29,13 @@ private:
     QComboBox* CB_serialPortList = nullptr;
     QComboBox* CB_serialBaudRate = nullptr;
     QPushButton* PB_serialConnect = nullptr;
+    QQuickWidget* QW_mainWidget = nullptr;
 
     SerialManager serialManager;
 
     void initStatusBar();
     void initQtConnections();
+    void initMainWidget();
 
 public slots:
     void updateSerialPortList();
