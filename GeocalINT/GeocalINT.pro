@@ -17,14 +17,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     ccombobox.cpp \
-    cstatuslabel.cpp \
+    cserialstatus.cpp \
+    cstatusbar.cpp \
     main.cpp \
     mainwindow.cpp \
     serialmanager.cpp
 
 HEADERS += \
     ccombobox.h \
-    cstatuslabel.h \
+    cserialstatus.h \
+    cstatusbar.h \
     mainwindow.h \
     serialmanager.h
 

@@ -3,9 +3,8 @@
 
 #include <QLabel>
 
-class CStatusLabel : public QLabel
+class CSerialStatus : public QLabel
 {
-
 public:
     enum class STATUS
     {
@@ -14,7 +13,7 @@ public:
         TRANSFERING
     };
 
-    CStatusLabel(QWidget* parent = nullptr);
+    CSerialStatus(QWidget* parent = nullptr);
 
     inline void setStatus( STATUS status ){ this->status = status; update(); }
     inline STATUS getStatus() const { return status; }

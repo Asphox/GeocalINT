@@ -1,6 +1,6 @@
-#include "cstatuslabel.h"
+#include "cserialstatus.h"
 
-CStatusLabel::CStatusLabel(QWidget* parent)
+CSerialStatus::CSerialStatus(QWidget* parent)
     :QLabel(parent)
 {
     setText("●");
@@ -8,7 +8,7 @@ CStatusLabel::CStatusLabel(QWidget* parent)
     update();
 }
 
-void CStatusLabel::update()
+void CSerialStatus::update()
 {
     QColor color;
     switch(status)
