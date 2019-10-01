@@ -4,6 +4,7 @@
 #include <QStatusBar>
 #include <QComboBox>
 #include <QPushButton>
+#include <QThread>
 #include <ccombobox.h>
 #include <cserialstatus.h>
 #include <serialmanager.h>
@@ -27,6 +28,7 @@ private slots:
     void updateSerialBaudrate();
     void updatePB_connectDisconnect();
     void onPB_connectDisconnectPressed();
+    void onSerialDataReceived(QByteArray);
 
 };
 

@@ -8,7 +8,7 @@ CONFIG += c++11
 # deprecated API in order to know how to port your code away from it.
 # CTO : COMPILE TIME OPTIONS
 DEFINES += QT_DEPRECATED_WARNINGS
-DEFINES += CTO_ENABLE_FILTER_SERIAL_PORT_NAME
+#DEFINES += CTO_ENABLE_FILTER_SERIAL_PORT_NAME
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -17,6 +17,7 @@ DEFINES += CTO_ENABLE_FILTER_SERIAL_PORT_NAME
 
 SOURCES += \
     ccombobox.cpp \
+    cmap.cpp \
     cserialstatus.cpp \
     cstatusbar.cpp \
     main.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     ccombobox.h \
+    cmap.h \
     cserialstatus.h \
     cstatusbar.h \
     mainwindow.h \

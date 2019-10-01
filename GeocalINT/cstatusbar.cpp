@@ -21,6 +21,7 @@ CStatusBar::CStatusBar(SerialManager* serialManager, QWidget* parent)
     connect(&CB_serialPortList,SIGNAL(currentIndexChanged(int)),this,SLOT(updatePB_connectDisconnect()));
     connect(&PB_connectDisconnect,SIGNAL(clicked()),this,SLOT(updateSerialPortList()));
     connect(&PB_connectDisconnect,SIGNAL(clicked()),this,SLOT(onPB_connectDisconnectPressed()));
+    connect(serialManager,SIGNAL(dataReceived(QByteArray)),this,SLOT(onSerialDataReceived(QByteArray)));
 }
 
 void CStatusBar::updateSerialPortList()
@@ -65,4 +66,10 @@ void CStatusBar::onPB_connectDisconnectPressed()
             LB_serialStatus.setStatus(CSerialStatus::STATUS::CONNECTED);
         }
     }
+}
+
+void CStatusBar::onSerialDataReceived(QByteArray array)
+{
+    LB_serialStatus.setStatus(CSerialStatus::STATUS::TRANSFERING);
+    std::cout << array.toStdString() << std::endl << std::endl;
 }

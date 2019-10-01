@@ -6,6 +6,8 @@ SerialManager::SerialManager(QObject *parent) : QObject(parent)
     serialPort.setParity(QSerialPort::Parity::NoParity);
     serialPort.setStopBits(QSerialPort::StopBits::OneStop);
     serialPort.setFlowControl(QSerialPort::FlowControl::NoFlowControl);
+
+    QObject::connect(&serialPort,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
 }
 
 bool SerialManager::connect(const QString& name, const QString& baudrate)
@@ -46,4 +48,21 @@ QStringList SerialManager::getAvailableBaudrates() const
     }
 
     return listBaudrate;
+}
+
+void SerialManager::onReadyRead()
+{
+    QByteArray rawData = serialPort.readAll();
+    receiveBuffer.append(rawData);
+    if( receiveBuffer[receiveBuffer.size()-2] == '\r' && rawData[receiveBuffer.size()-1] == '\n' )
+    {
+        receiveBuffer.remove(receiveBuffer.size()-2,2);
+        emit dataReceived(receiveBuffer);
+        receiveBuffer.clear();
+    }
+}
+
+SerialManager::~SerialManager()
+{
+    disconnect();
 }

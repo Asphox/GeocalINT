@@ -7,17 +7,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    initMainWidget();
-
     statusBar = new CStatusBar(&serialManager,this);
     setStatusBar(statusBar);
 
-}
-
-void MainWindow::initMainWidget()
-{
-    ui->quickWidget->rootContext()->setContextProperty("w", this);
-    ui->quickWidget->setSource(QUrl(QStringLiteral("qrc:/map.qml")));
+    map = new CMap("qrc:/map.qml",this);
+    ui->TW_mainTabs->addTab(map,tr("Map"));
 }
 
 MainWindow::~MainWindow()

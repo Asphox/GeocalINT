@@ -2,9 +2,10 @@
 #define CSTATUSLABEL_H
 
 #include <QLabel>
-
+#include <QTimer>
 class CSerialStatus : public QLabel
 {
+    Q_OBJECT
 public:
     enum class STATUS
     {
@@ -21,7 +22,11 @@ public:
 private:
     STATUS status = STATUS::DISCONNECTED;
 
+
     void update();
+
+private slots:
+    void onTransferingTimerEnded();
 };
 
 #endif // CSTATUSLABEL_H

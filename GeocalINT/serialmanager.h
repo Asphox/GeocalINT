@@ -12,6 +12,7 @@ class SerialManager : public QObject
 public:
 
     explicit SerialManager(QObject *parent = nullptr);
+    ~SerialManager();
 
     bool connect(const QString& name, const QString& baudrate );
     void disconnect();
@@ -21,10 +22,15 @@ public:
 
 private:
     QSerialPort   serialPort;
+    QByteArray    receiveBuffer;
 
 signals:
+    void dataReceived(QByteArray);
 
 public slots:
+
+private slots:
+    void onReadyRead();
 
 };
 

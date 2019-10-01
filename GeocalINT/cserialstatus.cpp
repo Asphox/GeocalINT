@@ -14,10 +14,18 @@ void CSerialStatus::update()
     switch(status)
     {
         case STATUS::DISCONNECTED: color = Qt::red; break;
-        case STATUS::CONNECTED: color = Qt::green; break;
-        case STATUS::TRANSFERING: color = Qt::green; break;
+        case STATUS::CONNECTED: color = Qt::yellow; break;
+        case STATUS::TRANSFERING:
+            color = Qt::green;
+            QTimer::singleShot(100,this,SLOT(onTransferingTimerEnded())); break;
     }
     QPalette tmpPalette = palette();
     tmpPalette.setColor( foregroundRole(), color );
     setPalette(tmpPalette);
+}
+
+void CSerialStatus::onTransferingTimerEnded()
+{
+    setStatus(STATUS::CONNECTED);
+    update();
 }

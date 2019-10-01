@@ -9,9 +9,12 @@
 #include <QQuickWidget>
 #include <QSettings>
 #include <QQmlContext>
+#include <QtQuickWidgets>
+#include <QLayout>
 
 #include "serialmanager.h"
 #include "cstatusbar.h"
+#include "cmap.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,8 +33,8 @@ private:
 
     SerialManager serialManager;
     CStatusBar*   statusBar;
+    CMap*         map;
 
-    QQuickWidget* QW_mainWidget = nullptr;
     void initMainWidget();
 
 };

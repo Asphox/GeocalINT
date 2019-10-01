@@ -16,9 +16,9 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QQuickWidget" name="quickWidget">
-      <property name="resizeMode">
-       <enum>QQuickWidget::SizeRootObjectToView</enum>
+     <widget class="QTabWidget" name="TW_mainTabs">
+      <property name="currentIndex">
+       <number>-1</number>
       </property>
      </widget>
     </item>
@@ -35,13 +35,6 @@
    </property>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QQuickWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">QtQuickWidgets/QQuickWidget</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
