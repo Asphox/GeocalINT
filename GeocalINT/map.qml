@@ -21,7 +21,9 @@ Item {
         center: QtPositioning.coordinate(59.91, 10.75)
         zoomLevel: sliderZoom.value
         bearing: sliderRot.value
-        //PinPoint: pointer
+        MapCircle{
+            pointer
+        }
     }
 
     Button {
