@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     map = new CMap("qrc:/map.qml",this);
     ui->TW_mainTabs->addTab(map,tr("Map"));
+
+    connect(&serialManager,SIGNAL(dataReceived(QByteArray)),&gnssParser,SLOT(parseData(QByteArray)));
+    connect(&gnssParser,&GNSS::Parser::NMEAFrameGLL_created,this,&MainWindow::onNMEAGLLreceived);
 }
 
 MainWindow::~MainWindow()

@@ -71,5 +71,4 @@ void CStatusBar::onPB_connectDisconnectPressed()
 void CStatusBar::onSerialDataReceived(QByteArray array)
 {
     LB_serialStatus.setStatus(CSerialStatus::STATUS::TRANSFERING);
-    std::cout << array.toStdString() << std::endl << std::endl;
 }
