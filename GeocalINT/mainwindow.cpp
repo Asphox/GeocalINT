@@ -10,8 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar = new CStatusBar(&serialManager,this);
     setStatusBar(statusBar);
 
-    map = new CMap("qrc:/map.qml",this);
+    map = new CMap("qrc:/Map.qml",this);
     ui->TW_mainTabs->addTab(map,tr("Map"));
+
 }
 
 MainWindow::~MainWindow()

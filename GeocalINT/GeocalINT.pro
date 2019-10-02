@@ -1,4 +1,4 @@
-QT       += core gui serialport location qml positioning quickwidgets
+QT       += core gui serialport location qml positioning quickwidgets quickcontrols2
 
 CONFIG += c++11
 
@@ -42,3 +42,5 @@ RESOURCES += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
