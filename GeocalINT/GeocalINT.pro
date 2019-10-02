@@ -20,8 +20,11 @@ SOURCES += \
     cmap.cpp \
     cserialstatus.cpp \
     cstatusbar.cpp \
+    gnss.cpp \
+    gnssparser.cpp \
     main.cpp \
     mainwindow.cpp \
+    nmeaframe.cpp \
     serialmanager.cpp
 
 HEADERS += \
@@ -29,7 +32,10 @@ HEADERS += \
     cmap.h \
     cserialstatus.h \
     cstatusbar.h \
+    gnss.h \
+    gnssparser.h \
     mainwindow.h \
+    nmeaframe.h \
     serialmanager.h
 
 FORMS += \
@@ -42,5 +48,3 @@ RESOURCES += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES +=
