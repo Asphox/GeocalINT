@@ -5,7 +5,10 @@ import QtQuick.Controls 2.5
 
 
 Item {
-
+    id: item
+    property real lat
+    property real lon
+    property real alt
 
     Plugin{
         id: mapPlugin
@@ -18,12 +21,16 @@ Item {
         id: mapViewer
         anchors.fill: parent
         plugin: mapPlugin
-        center: QtPositioning.coordinate(59.91, 10.75)
+        MapCircle{
+            color: "red"
+            radius: 1000000
+            center: QtPositioning.coordinate(45, 2.0)
+        }
+
+        center: QtPositioning.coordinate(lat, lon)
+
         zoomLevel: sliderZoom.value
         bearing: sliderRot.value
-        MapCircle{
-            pointer
-        }
     }
 
     Button {
@@ -74,6 +81,7 @@ Item {
                         text: "Refresh"
 
                         signal refreshPos()
+                        onClicked: onNMEAFrameGLL_created()
                     }
 
                     CheckBox{
@@ -92,6 +100,18 @@ Item {
             }
         }
     }
+
+    function onNMEAFrameGLL(plat,plon){
+        item.lat=plat/100
+        item.lon=plon/100
+
+        console.log(lat)
+        console.log(item.lat)
+        console.log(lon)
+
+
+    }
+
 
 }
 

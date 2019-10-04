@@ -16,10 +16,6 @@ Item {
         anchorPoint.y: image.height
         coordinate: QtPositioning.coordinate(59.91, 10.75)
     }*/
-    MapCircle{
-        id: pointer
-        color: "red"
-        radius: 1000
-        center: QtPositioning.coordinate(59.91, 10.75)
-    }
+
+
 }

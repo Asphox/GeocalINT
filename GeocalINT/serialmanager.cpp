@@ -7,14 +7,19 @@ SerialManager::SerialManager(QObject *parent) : QObject(parent)
     serialPort.setStopBits(QSerialPort::StopBits::OneStop);
     serialPort.setFlowControl(QSerialPort::FlowControl::NoFlowControl);
 
-    QObject::connect(&serialPort,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
+    //QObject::connect(&serialPort,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
+    QObject::connect(&serialPort,&QSerialPort::readyRead,this,&SerialManager::onReadyRead);
 }
 
 bool SerialManager::connect(const QString& name, const QString& baudrate)
 {
     serialPort.setPortName(name);
     serialPort.setBaudRate(baudrate.toInt());
-    return serialPort.open(QIODevice::ReadWrite);
+
+    bool r = serialPort.open(QIODevice::ReadWrite);
+    //serialPort.setDataTerminalReady(true);
+    std::cout << serialPort.error() << std::endl;
+    return r;
 }
 
 void SerialManager::disconnect()
@@ -52,6 +57,7 @@ QStringList SerialManager::getAvailableBaudrates() const
 
 void SerialManager::onReadyRead()
 {
+    std::cout << "pipi" << std::endl;
     QByteArray rawData = serialPort.readAll();
     receiveBuffer.append(rawData);
     if( receiveBuffer[receiveBuffer.size()-2] == '\r' && rawData[receiveBuffer.size()-1] == '\n' )
