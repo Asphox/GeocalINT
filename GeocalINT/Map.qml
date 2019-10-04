@@ -21,6 +21,7 @@ Item {
         id: mapViewer
         anchors.fill: parent
         plugin: mapPlugin
+
         MapCircle{
             color: "red"
             radius: 1000000
