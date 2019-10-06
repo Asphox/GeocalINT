@@ -34,8 +34,8 @@ Item {
                 Slider{
                     id: sliderZoom
                     width: parent.width
-                    from: 1
-                    to: 18
+                    from: 3
+                    to: 20
                     value: 14
                     signal sliderZoomMoved
                     //onMoved: console.log(value)
@@ -90,7 +90,8 @@ Item {
 
             MouseArea{
                 id: mousePopOff
-                anchors.fill: parent
+                width: parent.width
+                height: parent.height
                 onClicked:{
                     popupClose.close()
                     popupControls.close()

@@ -61,7 +61,12 @@ void SerialManager::onReadyRead()
     receiveBuffer.append(rawData);
     if( receiveBuffer[receiveBuffer.size()-2] == '\r' && rawData[receiveBuffer.size()-1] == '\n' )
     {
-        std::cout << rawData.toStdString() << std::endl;
+#ifdef CTO_ENABLE_SERIAL_RAW_DISPLAY
+        std::cout <<  "=======================" << std::endl
+                  <<  "   RAW DATA RECEIVED   " << std::endl
+                  <<   rawData.toStdString() << std::endl
+                  <<  "=======================" <<std::endl;
+#endif
         receiveBuffer.remove(receiveBuffer.size()-2,2);
         emit dataReceived(receiveBuffer);
         receiveBuffer.clear();

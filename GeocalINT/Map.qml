@@ -29,7 +29,7 @@ Item {
             id: circle
             objectName: "circle"
             color: "red"
-            radius: 100
+            radius: 1
             center: QtPositioning.coordinate(lat,lon)
         }
 

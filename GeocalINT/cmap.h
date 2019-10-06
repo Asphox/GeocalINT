@@ -17,7 +17,6 @@ public:
 
 public slots:
     void onNMEAFrameGLL_created(GNSS::NMEAFrameGLL);
-    void test();
 };
 
 #endif // CMAP_H

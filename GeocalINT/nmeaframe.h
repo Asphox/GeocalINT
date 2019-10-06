@@ -11,6 +11,7 @@
 
 namespace GNSS
 {
+
     class NMEAFrame
     {
         public:
@@ -37,6 +38,19 @@ namespace GNSS
 
             inline bool isValid() const { return valid && bHasChecksum; }
 
+            static double DMSToD( QString DMS )
+            {
+                double angle = 0;
+                int pointPos = DMS.indexOf('.');
+                if( pointPos > 0 )
+                {
+                    angle += DMS.mid(pointPos-2,DMS.size()-pointPos).toDouble()/60;
+                    angle += DMS.left(pointPos-2).toDouble();
+                }
+                std::cout << angle << std::endl;
+                return angle;
+            }
+
         protected:
             bool valid = false;
             bool bHasChecksum = false;
@@ -49,7 +63,6 @@ namespace GNSS
             void fillData(const QByteArray& rawData);
 
             //virtual void __dummy() = 0;
-
     };
 
     class NMEAFrameGLL : public NMEAFrame
@@ -57,9 +70,11 @@ namespace GNSS
         public:
             NMEAFrameGLL(const QByteArray& rawData);
 
-            QString getLat() const { return QString(data.at(0)); }
+            double getLat() const { return DMSToD(QString(data.at(0))); }
+            QString getLatDMS() const { return QString(data.at(0)); }
             QString getNS() const { return QString(data.at(1)); }
-            QString getLon() const { return QString(data.at(2)); }
+            double getLon() const { return DMSToD(QString(data.at(2))); }
+            //QString getLonDMS() const {  }
             QString getEW() const { return QString(data.at(3)); }
             QString getUTC() const { return QString(data.at(4)); }
             QString getStatus() const { return QString(data.at(5)); }
