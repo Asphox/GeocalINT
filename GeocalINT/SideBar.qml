@@ -10,6 +10,8 @@ Item {
     anchors.fill: parent
     property double zoom : sliderZoom.value
     property double rot : sliderRot.value
+    property double latitude
+    property double longitude
 
     Rectangle{
         id: containerPopup
@@ -55,8 +57,10 @@ Item {
                         text: "Refresh"
 
                         onClicked: {
-                            mapViewer.center = QtPositioning.coordinate(lat,lon)
-                            circle.center = QtPositioning.coordinate(lat,lon)
+                            mapViewer.center = QtPositioning.coordinate(latitude, longitude)
+                            //circle.center = QtPositioning.coordinate(lat,lon)
+                            console.log(item.lat)
+                            console.log(item.lon)
                         }
 
                     }
@@ -67,7 +71,7 @@ Item {
                     }
                 }
             }
-        }      
+        }
     }
 
     Rectangle{

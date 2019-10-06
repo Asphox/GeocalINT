@@ -6,9 +6,10 @@ import QtQuick.Controls 2.5
 
 Item {
     id: item
+    objectName: "item"
+    property real alt
     property real lat
     property real lon
-    property real alt
 
 
     Plugin{
@@ -20,28 +21,25 @@ Item {
     }
     Map{
         id: mapViewer
+        objectName: "mapViewer"
         anchors.fill: parent
         plugin: mapPlugin
+
         MapCircle{
             id: circle
+            objectName: "circle"
             color: "red"
-            radius: 100000
+            radius: 100
             center: QtPositioning.coordinate(lat,lon)
         }
 
-        SideBar{id: side}
+        SideBar{
+            id: side
+        }
         zoomLevel: side.zoom
         bearing: side.rot
 
         center: QtPositioning.coordinate(lat, lon)
-    }
-
-    function onNMEAFrameGLL(plat,plon){
-        lat=plat/100
-        lon=plon/100
-        console.log(lat)
-        console.log(lon)
-
     }
 }
 

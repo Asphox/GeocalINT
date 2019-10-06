@@ -5,6 +5,8 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQmlComponent>
+#include <QQuickItem>
+#include <QTimer>
 #include "nmeaframe.h"
 
 class CMap : public QQuickWidget
@@ -15,6 +17,7 @@ public:
 
 public slots:
     void onNMEAFrameGLL_created(GNSS::NMEAFrameGLL);
+    void test();
 };
 
 #endif // CMAP_H
