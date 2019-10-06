@@ -10,6 +10,7 @@ Item {
     property real lon
     property real alt
 
+
     Plugin{
         id: mapPlugin
         name: "osm"
@@ -21,85 +22,18 @@ Item {
         id: mapViewer
         anchors.fill: parent
         plugin: mapPlugin
-
         MapCircle{
+            id: circle
             color: "red"
-            radius: 1000000
-            center: QtPositioning.coordinate(45, 2.0)
+            radius: 100000
+            center: QtPositioning.coordinate(lat,lon)
         }
+
+        SideBar{id: side}
+        zoomLevel: side.zoom
+        bearing: side.rot
 
         center: QtPositioning.coordinate(lat, lon)
-
-        zoomLevel: sliderZoom.value
-        bearing: sliderRot.value
-    }
-
-    Button {
-        id: openButton
-        text: "Open"
-        onClicked: popupControls.open()
-        padding: 10
-    }
-
-
-    Rectangle{
-        id: containerPopup
-        width: parent.width*0.2
-        height: parent.height
-        visible: false
-
-        Popup {
-            id: popupControls
-            width: parent.width
-            height: parent.height
-            opacity: 1
-            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideThis
-
-            Column{
-                spacing: 10
-                height: parent.height
-                width: parent.width
-
-                Slider{
-                    id: sliderZoom
-                    width: parent.width
-                    from: 1
-                    to: 20
-                    value: 14
-                }
-
-                Slider{
-                    id: sliderRot
-                    width: parent.width
-                    from:0
-                    to: 360
-                    value:0
-                }
-
-                Row{
-                    Button{
-                        id: refreshPosition
-                        text: "Refresh"
-
-                        signal refreshPos()
-                        onClicked: onNMEAFrameGLL_created()
-                    }
-
-                    CheckBox{
-                        id: constRefresh
-                        text: "Constant"
-                        signal constRefreshPos()
-                    }
-                }
-
-
-                Button{
-                    id: closeButton
-                    text: "Close"
-                    onClicked: popupControls.close()
-                }
-            }
-        }
     }
 
     function onNMEAFrameGLL(plat,plon){
@@ -110,10 +44,7 @@ Item {
         console.log(item.lat)
         console.log(lon)
 
-
     }
-
-
 }
 
 

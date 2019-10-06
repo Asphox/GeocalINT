@@ -3,5 +3,6 @@
         <file>Map.qml</file>
         <file>PinPoint.qml</file>
         <file>mapPointerIcon.png</file>
+        <file>SideBar.qml</file>
     </qresource>
 </RCC>

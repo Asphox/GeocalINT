@@ -4,18 +4,13 @@ import QtLocation 5.13
 import QtQuick.Controls 2.5
 
 Item {
+    property real latitude
+    property real longitude
+    property real altitude
 
-    /*MapQuickItem{
-        id: pointer
-        sourceItem: Image {
-            id: image
-            source: "/Users/Lenovo/Desktop/INTech/GeocalINT/GeocalINT/mapPointerIcon.png"
-
-        }
-        anchorPoint.x: image.width/2
-        anchorPoint.y: image.height
-        coordinate: QtPositioning.coordinate(59.91, 10.75)
-    }*/
-
-
+    MapCircle{
+        color: "red"
+        radius: 100000
+        center: QtPositioning.coordinate(latitude, longitude)
+    }
 }
