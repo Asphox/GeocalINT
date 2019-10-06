@@ -57,11 +57,11 @@ QStringList SerialManager::getAvailableBaudrates() const
 
 void SerialManager::onReadyRead()
 {
-    std::cout << "pipi" << std::endl;
     QByteArray rawData = serialPort.readAll();
     receiveBuffer.append(rawData);
     if( receiveBuffer[receiveBuffer.size()-2] == '\r' && rawData[receiveBuffer.size()-1] == '\n' )
     {
+        std::cout << rawData.toStdString() << std::endl;
         receiveBuffer.remove(receiveBuffer.size()-2,2);
         emit dataReceived(receiveBuffer);
         receiveBuffer.clear();

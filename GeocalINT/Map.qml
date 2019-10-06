@@ -37,11 +37,9 @@ Item {
     }
 
     function onNMEAFrameGLL(plat,plon){
-        item.lat=plat/100
-        item.lon=plon/100
-
+        lat=plat/100
+        lon=plon/100
         console.log(lat)
-        console.log(item.lat)
         console.log(lon)
 
     }

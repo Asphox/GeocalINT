@@ -33,7 +33,7 @@ Item {
                     id: sliderZoom
                     width: parent.width
                     from: 1
-                    to: 20
+                    to: 18
                     value: 14
                     signal sliderZoomMoved
                     //onMoved: console.log(value)
@@ -54,14 +54,16 @@ Item {
                         id: refreshPosition
                         text: "Refresh"
 
-                        signal refreshPos()
-                        //onClicked: onNMEAFrameGLL_created()
+                        onClicked: {
+                            mapViewer.center = QtPositioning.coordinate(lat,lon)
+                            circle.center = QtPositioning.coordinate(lat,lon)
+                        }
+
                     }
 
                     CheckBox{
                         id: constRefresh
                         text: "Constant"
-                        signal constRefreshPos()
                     }
                 }
             }

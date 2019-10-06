@@ -13,7 +13,5 @@ void CMap::onNMEAFrameGLL_created(GNSS::NMEAFrameGLL gll)
     QQmlComponent component(&engine,"qrc:/Map.qml");
     QObject* object = component.create();
 
-    QVariant lat = 4500.0;
-    QVariant lon = 200.0;
-    QMetaObject::invokeMethod(object,"onNMEAFrameGLL",Q_ARG(QVariant,lat),Q_ARG(QVariant,lon));
+    QMetaObject::invokeMethod(object,"onNMEAFrameGLL",Q_ARG(QVariant,gll.getLat().toFloat()),Q_ARG(QVariant,gll.getLon().toFloat()));
 }
