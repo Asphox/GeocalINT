@@ -31,7 +31,7 @@ Item {
                 height: parent.height
                 width: parent.width
 
-                Slider{
+                Slider{     //Slider pour le zoom
                     id: sliderZoom
                     width: parent.width
                     from: 3
@@ -42,7 +42,7 @@ Item {
 
                 }
 
-                Slider{
+                Slider{     //Slider pour la rotation de la map
                     id: sliderRot
                     width: parent.width
                     from:0
@@ -51,16 +51,12 @@ Item {
 
                 }
 
-                Row{
+                Row{    //Not used yet, a click on the refresh button will actualise the position, and the checkbox will refresh
                     Button{
                         id: refreshPosition
                         text: "Refresh"
 
                         onClicked: {
-                            mapViewer.center = QtPositioning.coordinate(latitude, longitude)
-                            //circle.center = QtPositioning.coordinate(lat,lon)
-                            console.log(item.lat)
-                            console.log(item.lon)
                         }
 
                     }
