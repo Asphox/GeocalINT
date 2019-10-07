@@ -9,6 +9,9 @@
 #include <QTimer>
 #include "nmeaframe.h"
 
+//=========================
+//  Custom widget handling the QML based geomap
+//=========================
 class CMap : public QQuickWidget
 {
     Q_OBJECT
@@ -16,7 +19,10 @@ public:
     CMap(const QString& qmlUrl, QWidget* parent = nullptr);
 
 public slots:
-    void onNMEAFrameGLL_created(GNSS::NMEAFrameGLL);
+    //===========================
+    // Slot called when an GLL NMEA Frame is constructed
+    //===========================
+    void onNMEAFrameGLLCreated(GNSS::NMEAFrameGLL);
 };
 
 #endif // CMAP_H

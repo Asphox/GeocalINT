@@ -5,6 +5,9 @@
 
 namespace GNSS
 {
+    //=======================
+    //  Enum with all frame modes (classic NMEA, raw UBX)
+    //=======================
     enum class FrameType
     {
         UNKNOWN,
@@ -12,6 +15,9 @@ namespace GNSS
         UBX
     };
 
+    //========================
+    //  Returns the frame type from a raw frame
+    //========================
     FrameType findFrameTypeFromRaw(const QByteArray& data);
 }
 

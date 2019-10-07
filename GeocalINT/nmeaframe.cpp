@@ -2,18 +2,20 @@
 
 using namespace GNSS;
 
-NMEAFrame::NMEAFrame(const QByteArray& rawData, const QList<QString>* fieldNames) : fieldNames(fieldNames)
+NMEAFrame::NMEAFrame(const QByteArray& rawData, const QList<QString>* fieldNames) : m_fieldNames(fieldNames)
 {
-    talker = findTalker(rawData);
-    type = findType(rawData);
+    m_talker = findTalker(rawData);
+    m_type = findType(rawData);
 
     if( hasChecksum(rawData) )
     {
-        bHasChecksum = true;
+        m_hasChecksum = true;
         checksum(rawData);
     }
 
     fillData(rawData);
+
+    if( m_data.size() != fieldNames->size() ) m_valid = false;
 }
 
 NMEAFrame::Type NMEAFrame::findType(const QByteArray& rawData)
@@ -49,22 +51,11 @@ void NMEAFrame::checksum(const QByteArray& rawData)
     {
         checksumValue ^= rawData[i];
     }
-    valid = rawData.right(2).toInt(nullptr,16) == checksumValue;
+   m_valid = rawData.right(2).toInt(nullptr,16) == checksumValue;
 }
 
 void NMEAFrame::fillData(const QByteArray& rawData)
 {
-   data = rawData.left(rawData.size()-3).split(',');
-   data.pop_front();
-}
-
-
-
-
-
-
-
-NMEAFrameGLL::NMEAFrameGLL(const QByteArray& rawData) : NMEAFrame(rawData,&fieldNames_GLL)
-{
-    if( fieldNames->size() != data.size() ) valid = false;
+   m_data = rawData.left(rawData.size()-3).split(',');
+   m_data.pop_front();
 }

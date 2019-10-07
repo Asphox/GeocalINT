@@ -9,6 +9,10 @@
 #include <cserialstatus.h>
 #include <serialmanager.h>
 
+
+//========================
+//  Widget for the bottom status bar, with all serial connection parameter
+//========================
 class CStatusBar : public QStatusBar
 {
     Q_OBJECT
@@ -16,18 +20,38 @@ public:
     CStatusBar(SerialManager* serialManager, QWidget* parent = nullptr);
 
 private:
-    CComboBox       CB_serialPortList;
-    QComboBox       CB_serialBaudrate;
-    QPushButton     PB_connectDisconnect;
-    CSerialStatus   LB_serialStatus;
+    CComboBox       m_serialPortList;
+    QComboBox       m_serialBaudrate;
+    QPushButton     m_connectDisconnect;
+    CSerialStatus   m_serialStatus;
 
-    SerialManager*  serialManager;
+    SerialManager*  m_serialManager;
 
 private slots:
+
+    //================================
+    //  Slots called when an update occures in the serial port list
+    //================================
     void updateSerialPortList();
-    void updateSerialBaudrate();
-    void updatePB_connectDisconnect();
-    void onPB_connectDisconnectPressed();
+
+    //================================
+    //  Slots called when an update occures in the serial baudrate list
+    //================================
+    void updateSerialBaudrateList();
+
+    //================================
+    //  Slots called to update connect and disconnect button
+    //================================
+    void updateConnectDisconnect();
+
+    //================================
+    //  Slols called when connect and disconnect button pressed
+    //================================
+    void onConnectDisconnectPressed();
+
+    //================================
+    //  Slots called when data are received (blinking led)
+    //================================
     void onSerialDataReceived(QByteArray);
 
 };

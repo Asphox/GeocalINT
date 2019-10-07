@@ -13,6 +13,11 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+//======================================
+//  Main Widget
+//======================================
+
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -24,13 +29,9 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    SerialManager serialManager;
-    GNSS::Parser  gnssParser;
-    CStatusBar*   statusBar;
-    CMap*         map;
-
-    void initMainWidget();
-
-public slots:
+    SerialManager m_serialManager;
+    GNSS::Parser  m_gnssParser;
+    CStatusBar*   m_statusBar;
+    CMap*         m_map;
 };
 #endif // MAINWINDOW_H

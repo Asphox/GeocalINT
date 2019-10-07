@@ -2,29 +2,25 @@
 
 SerialManager::SerialManager(QObject *parent) : QObject(parent)
 {
-    serialPort.setDataBits(QSerialPort::Data8);
-    serialPort.setParity(QSerialPort::Parity::NoParity);
-    serialPort.setStopBits(QSerialPort::StopBits::OneStop);
-    serialPort.setFlowControl(QSerialPort::FlowControl::NoFlowControl);
+    m_serialPort.setDataBits(QSerialPort::Data8);
+    m_serialPort.setParity(QSerialPort::Parity::NoParity);
+    m_serialPort.setStopBits(QSerialPort::StopBits::OneStop);
+    m_serialPort.setFlowControl(QSerialPort::FlowControl::NoFlowControl);
 
-    //QObject::connect(&serialPort,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
-    QObject::connect(&serialPort,&QSerialPort::readyRead,this,&SerialManager::onReadyRead);
+    QObject::connect(&m_serialPort,&QSerialPort::readyRead,this,&SerialManager::onReadyRead);
 }
 
 bool SerialManager::connect(const QString& name, const QString& baudrate)
 {
-    serialPort.setPortName(name);
-    serialPort.setBaudRate(baudrate.toInt());
+    m_serialPort.setPortName(name);
+    m_serialPort.setBaudRate(baudrate.toInt());
 
-    bool r = serialPort.open(QIODevice::ReadWrite);
-    //serialPort.setDataTerminalReady(true);
-    std::cout << serialPort.error() << std::endl;
-    return r;
+    return m_serialPort.open(QIODevice::ReadWrite);
 }
 
 void SerialManager::disconnect()
 {
-    serialPort.close();
+    m_serialPort.close();
 }
 
 QStringList SerialManager::getAvailablePorts(bool enableFilterACM_COM) const
@@ -57,9 +53,13 @@ QStringList SerialManager::getAvailableBaudrates() const
 
 void SerialManager::onReadyRead()
 {
-    QByteArray rawData = serialPort.readAll();
-    receiveBuffer.append(rawData);
-    if( receiveBuffer[receiveBuffer.size()-2] == '\r' && rawData[receiveBuffer.size()-1] == '\n' )
+    QByteArray rawData = m_serialPort.readAll();
+    m_receiveBuffer.append(rawData);
+
+    //===========================
+    //  Checks if buffer terminates with \r\n to have a complete frame
+    //===========================
+    if( m_receiveBuffer[m_receiveBuffer.size()-2] == '\r' && rawData[m_receiveBuffer.size()-1] == '\n' )
     {
 #ifdef CTO_ENABLE_SERIAL_RAW_DISPLAY
         std::cout <<  "=======================" << std::endl
@@ -67,9 +67,9 @@ void SerialManager::onReadyRead()
                   <<   rawData.toStdString() << std::endl
                   <<  "=======================" <<std::endl;
 #endif
-        receiveBuffer.remove(receiveBuffer.size()-2,2);
-        emit dataReceived(receiveBuffer);
-        receiveBuffer.clear();
+        m_receiveBuffer.remove(m_receiveBuffer.size()-2,2);
+        emit dataReceived(m_receiveBuffer);
+        m_receiveBuffer.clear();
     }
 }
 

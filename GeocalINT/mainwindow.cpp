@@ -7,13 +7,14 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    statusBar = new CStatusBar(&serialManager,this);
-    setStatusBar(statusBar);
+    m_statusBar = new CStatusBar(&m_serialManager,this);
+    setStatusBar(m_statusBar);
 
-    map = new CMap("qrc:/Map.qml",this);
-    ui->TW_mainTabs->addTab(map,tr("Map"));
-    connect(&serialManager,SIGNAL(dataReceived(QByteArray)),&gnssParser,SLOT(parseData(QByteArray)));
-    connect(&gnssParser,&GNSS::Parser::NMEAFrameGLL_created,map,&CMap::onNMEAFrameGLL_created);
+    m_map = new CMap("qrc:/Map.qml",this);
+    ui->TW_mainTabs->addTab(m_map,tr("Map"));
+
+    connect(&m_serialManager,SIGNAL(dataReceived(QByteArray)),&m_gnssParser,SLOT(parseData(QByteArray)));
+    connect(&m_gnssParser,&GNSS::Parser::NMEAFrameGLL_created,m_map,&CMap::onNMEAFrameGLLCreated);
 
 }
 

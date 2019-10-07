@@ -2,73 +2,74 @@
 
 CStatusBar::CStatusBar(SerialManager* serialManager, QWidget* parent)
     :QStatusBar(parent)
-    ,serialManager(serialManager)
+    ,m_serialManager(serialManager)
 {
-    CB_serialPortList.setParent(parent);
-    addWidget(&CB_serialPortList);
-    CB_serialBaudrate.setParent(parent);
-    addWidget(&CB_serialBaudrate);
-    PB_connectDisconnect.setParent(parent);
-    PB_connectDisconnect.setText(tr("connect"));
-    addWidget(&PB_connectDisconnect);
-    LB_serialStatus.setParent(parent);
-    addPermanentWidget(&LB_serialStatus);
+    m_serialPortList.setParent(parent);
+    addWidget(&m_serialPortList);
+    m_serialBaudrate.setParent(parent);
+    addWidget(&m_serialBaudrate);
+    m_connectDisconnect.setParent(parent);
+    m_connectDisconnect.setText(tr("connect"));
+    addWidget(&m_connectDisconnect);
+    m_serialStatus.setParent(parent);
+    addPermanentWidget(&m_serialStatus);
 
     updateSerialPortList();
-    updateSerialBaudrate();
+    updateSerialBaudrateList();
 
-    connect(&CB_serialPortList,SIGNAL(clicked()),this,SLOT(updateSerialPortList()));
-    connect(&CB_serialPortList,SIGNAL(currentIndexChanged(int)),this,SLOT(updatePB_connectDisconnect()));
-    connect(&PB_connectDisconnect,SIGNAL(clicked()),this,SLOT(updateSerialPortList()));
-    connect(&PB_connectDisconnect,SIGNAL(clicked()),this,SLOT(onPB_connectDisconnectPressed()));
+    connect(&m_serialPortList,SIGNAL(clicked()),this,SLOT(updateSerialPortList()));
+    connect(&m_serialPortList,SIGNAL(currentIndexChanged(int)),this,SLOT(updateConnectDisconnect()));
+    connect(&m_connectDisconnect,SIGNAL(clicked()),this,SLOT(updateSerialPortList()));
+    connect(&m_connectDisconnect,SIGNAL(clicked()),this,SLOT(onConnectDisconnectPressed()));
     connect(serialManager,SIGNAL(dataReceived(QByteArray)),this,SLOT(onSerialDataReceived(QByteArray)));
 }
 
 void CStatusBar::updateSerialPortList()
 {
-    CB_serialPortList.clear();
+    m_serialPortList.clear();
 #ifdef CTO_ENABLE_FILTER_SERIAL_PORT_NAME
-    CB_serialPortList.addItems(serialManager->getAvailablePorts(true));
+    m_serialPortList.addItems(m_serialManager->getAvailablePorts(true));
 #endif
 #ifndef CTO_ENABLE_FILTER_SERIAL_PORT_NAME
-    CB_serialPortList.addItems(serialManager->getAvailablePorts(false));
+    m_serialPortList.addItems(m_serialManager->getAvailablePorts(false));
 #endif
 }
 
-void CStatusBar::updateSerialBaudrate()
+void CStatusBar::updateSerialBaudrateList()
 {
-    CB_serialBaudrate.clear();
-    CB_serialBaudrate.addItems(serialManager->getAvailableBaudrates());
+    m_serialBaudrate.clear();
+    m_serialBaudrate.addItems(m_serialManager->getAvailableBaudrates());
 }
 
-void CStatusBar::updatePB_connectDisconnect()
+void CStatusBar::updateConnectDisconnect()
 {
-    PB_connectDisconnect.setEnabled( CB_serialPortList.currentIndex() >= 0 );
+    m_connectDisconnect.setEnabled( m_serialPortList.currentIndex() >= 0 );
 }
 
-void CStatusBar::onPB_connectDisconnectPressed()
+void CStatusBar::onConnectDisconnectPressed()
 {
-    if( LB_serialStatus.getStatus() == CSerialStatus::STATUS::CONNECTED )
+    if( m_serialStatus.getStatus() == CSerialStatus::STATUS::CONNECTED )
     {
-        PB_connectDisconnect.setText(tr("connect"));
-        CB_serialBaudrate.setEnabled(true);
-        CB_serialPortList.setEnabled(true);
-        LB_serialStatus.setStatus(CSerialStatus::STATUS::DISCONNECTED);
-        serialManager->disconnect();
+        m_connectDisconnect.setText(tr("connect"));
+        m_serialBaudrate.setEnabled(true);
+        m_serialPortList.setEnabled(true);
+        m_serialStatus.setStatus(CSerialStatus::STATUS::DISCONNECTED);
+        m_serialManager->disconnect();
     }
     else
     {
-        if( serialManager->connect(CB_serialPortList.currentText(),CB_serialBaudrate.currentText()) )
+        if( m_serialManager->connect(m_serialPortList.currentText(),m_serialBaudrate.currentText()) )
         {
-            PB_connectDisconnect.setText(tr("disconnect"));
-            CB_serialBaudrate.setEnabled(false);
-            CB_serialPortList.setEnabled(false);
-            LB_serialStatus.setStatus(CSerialStatus::STATUS::CONNECTED);
+            m_connectDisconnect.setText(tr("disconnect"));
+            m_serialBaudrate.setEnabled(false);
+            m_serialPortList.setEnabled(false);
+            m_serialStatus.setStatus(CSerialStatus::STATUS::CONNECTED);
         }
     }
 }
 
 void CStatusBar::onSerialDataReceived(QByteArray array)
 {
-    LB_serialStatus.setStatus(CSerialStatus::STATUS::TRANSFERING);
+    (void)array;
+    m_serialStatus.setStatus(CSerialStatus::STATUS::TRANSFERING);
 }

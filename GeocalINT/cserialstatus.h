@@ -3,6 +3,10 @@
 
 #include <QLabel>
 #include <QTimer>
+
+//===============================
+// Custom Label representing the connection status of the serial port
+//===============================
 class CSerialStatus : public QLabel
 {
     Q_OBJECT

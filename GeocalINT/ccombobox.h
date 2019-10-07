@@ -3,8 +3,9 @@
 
 #include <QComboBox>
 
-//Modified QComboBox : clicked signal added
-
+//============================
+//  Custom combobox with clicked event added
+//============================
 class CComboBox : public QComboBox
 {
     Q_OBJECT
