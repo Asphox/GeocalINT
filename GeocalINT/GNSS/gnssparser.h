@@ -4,7 +4,8 @@
 #include <QObject>
 #include <iostream>
 #include "gnss.h"
-#include "nmeaframe.h"
+#include "NMEA/nmeaframe.h"
+#include "UBX/ubx.h"
 
 namespace GNSS
 {
@@ -29,9 +30,14 @@ namespace GNSS
     private:
 
         //=======================
-        // Creats and emits a NMEA frame based on raw frame
+        // Creats and emits a new NMEA frame based on raw frame
         //=======================
         void createNMEAFrame(const QByteArray& rawData);
+
+        //=======================
+        // Creats and emits a UBX frame based on raw frame
+        //=======================
+        void createUBXFrame(const QByteArray& rawData);
 
     signals:
 
@@ -39,6 +45,8 @@ namespace GNSS
         //  Signal emitted when a GLL NMEA frame is fully created
         //========================
         void NMEAFrameGLL_created(NMEAFrameGLL);
+
+        void UBXFrameNAV_ODO_created(UBXFrameNAV_ODO);
 
     };
 }

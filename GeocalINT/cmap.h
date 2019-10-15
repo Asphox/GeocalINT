@@ -7,7 +7,7 @@
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QTimer>
-#include "nmeaframe.h"
+#include <GNSS/NMEA/nmeaframe.h>
 
 //=========================
 //  Custom widget handling the QML based geomap

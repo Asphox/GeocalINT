@@ -3,6 +3,8 @@
 
 #include <QByteArray>
 
+#include "UBX/ubxframe.h"
+
 namespace GNSS
 {
     //=======================

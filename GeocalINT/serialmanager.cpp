@@ -59,8 +59,6 @@ void SerialManager::onReadyRead()
     //===========================
     //  Checks if buffer terminates with \r\n to have a complete frame
     //===========================
-    if( m_receiveBuffer[m_receiveBuffer.size()-2] == '\r' && rawData[m_receiveBuffer.size()-1] == '\n' )
-    {
 #ifdef CTO_ENABLE_SERIAL_RAW_DISPLAY
         std::cout <<  "=======================" << std::endl
                   <<  "   RAW DATA RECEIVED   " << std::endl
@@ -70,7 +68,7 @@ void SerialManager::onReadyRead()
         m_receiveBuffer.remove(m_receiveBuffer.size()-2,2);
         emit dataReceived(m_receiveBuffer);
         m_receiveBuffer.clear();
-    }
+
 }
 
 SerialManager::~SerialManager()

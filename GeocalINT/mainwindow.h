@@ -6,8 +6,8 @@
 #include "serialmanager.h"
 #include "cstatusbar.h"
 #include "cmap.h"
-#include "gnssparser.h"
-#include "gnss.h"
+#include <GNSS/gnssparser.h>
+#include <GNSS/gnss.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
