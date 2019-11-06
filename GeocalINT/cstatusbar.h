@@ -8,6 +8,7 @@
 #include <ccombobox.h>
 #include <cserialstatus.h>
 #include <serialmanager.h>
+#include <Utils/stringhtml.h>
 
 
 //========================
@@ -23,6 +24,7 @@ private:
     CComboBox       m_serialPortList;
     QComboBox       m_serialBaudrate;
     QPushButton     m_connectDisconnect;
+    QLabel          m_statusText;
     CSerialStatus   m_serialStatus;
 
     SerialManager*  m_serialManager;

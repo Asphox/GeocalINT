@@ -18,20 +18,26 @@ DEFINES += CTO_ENABLE_SERIAL_RAW_DISPLAY
 
 SOURCES += *.cpp \
     GNSS/NMEA/nmeaframe.cpp \
+    GNSS/UBX/ACK/ubxframeack.cpp \
+    GNSS/UBX/CFG/ubxframecfg_tp5.cpp \
     GNSS/UBX/NAV/ubxframenav.cpp \
     GNSS/UBX/NAV/ubxframenav_odo.cpp \
     GNSS/UBX/ubxframe.cpp \
     GNSS/gnss.cpp \
-    GNSS/gnssparser.cpp
+    GNSS/gnssparser.cpp \
+    Utils/stringhtml.cpp
 
 HEADERS += *.h \
     GNSS/NMEA/nmeaframe.h \
+    GNSS/UBX/ACK/ubxframeack.h \
+    GNSS/UBX/CFG/ubxframecfg_tp5.h \
     GNSS/UBX/NAV/ubxframenav.h \
     GNSS/UBX/NAV/ubxframenav_odo.h \
     GNSS/UBX/ubx.h \
     GNSS/UBX/ubxframe.h \
     GNSS/gnss.h \
-    GNSS/gnssparser.h
+    GNSS/gnssparser.h \
+    Utils/stringhtml.h
 
 FORMS += \
     mainwindow.ui

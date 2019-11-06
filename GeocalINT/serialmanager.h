@@ -45,11 +45,23 @@ public:
     //=============================
     inline QSerialPort::SerialPortError getLastError() const { return m_serialPort.error(); }
 
+    //=============================
+    //  Returns the last error string
+    //=============================
+    inline QString getLastErrorString() const { return m_serialPort.errorString(); }
+
+
+    //=============================
+    //  Writes an raw array on the serial port
+    //=============================
+    inline void write(QByteArray&& rawData) { m_serialPort.write(rawData); }
+
 private:
 
     QSerialPort   m_serialPort;
     QByteArray    m_receiveBuffer;
     QSerialPort::SerialPortError m_lastError = QSerialPort::SerialPortError::NoError;
+    QString       m_lastErrorString = "";
 
 private slots:
 

@@ -2,6 +2,11 @@
 #define UBXFRAME_H
 
 #include <QByteArray>
+#include <QVector>
+
+#define GNSS_UBX_CLSID(cls,id) (((cls)<<8)|(id))
+#define GNSS_UBX_CLS(enm) static_cast<int8_t>((((static_cast<int>(enm))>>8) & 0xFF))
+#define GNSS_UBX_ID(enm) static_cast<int8_t>(((static_cast<int>(enm)) & 0xFF))
 
 namespace GNSS
 {
@@ -12,6 +17,8 @@ namespace GNSS
     {
     public:
 
+        constexpr static uint8_t SYNC_CHAR_1       = 0xB5;
+        constexpr static uint8_t SYNC_CHAR_2       = 0x62;
         constexpr static uint8_t SYNC_CHAR_1_POS   = 0;
         constexpr static uint8_t SYNC_CHAR_2_POS   = 1;
         constexpr static uint8_t CLASS_POS         = 2;
@@ -27,22 +34,13 @@ namespace GNSS
         //==================
         //  Class of the UBX frame
         //==================
-        enum class Class
+        enum class ClsId
         {
-            NAV = 0x01, //Navigation Results Messages: Position, Speed, Time, Acceleration, Heading, DOP,SVs used
-            RXM = 0x02, //Receiver Manager Messages: Satellite Status, RTC Status
-            INF = 0x04, //Information  Messages:  Printf-Style  Messages,  with  IDs  such  as  Error,  Warning,Notice
-            ACK = 0x05, //Ack/Nak Messages: Acknowledge or Reject messages to UBX-CFG input messages
-            CFG = 0x06, //Configuration Input Messages: Configure the receiver.
-            UPD = 0x09, //Firmware   Update   Messages:   Memory/Flash   erase/write,   Reboot,   Flashidentification, etc.
-            MON = 0x0A, //Monitoring  Messages:  Communication  Status,  CPU  Load,  Stack  Usage,  TaskStatus
-            AID = 0x0B, //AssistNow Aiding Messages: Ephemeris, Almanac, other A-GPS data input
-            TIM = 0x0D, //Timing Messages: Time Pulse Output, Time Mark Results
-            ESF = 0x10, //External  Sensor  Fusion  Messages:  External  Sensor  Measurements  and  StatusInformation
-            MGA = 0x13, //Multiple GNSS Assistance Messages: Assistance data for various GNSS
-            LOG = 0x21, //Logging Messages: Log creation, deletion, info and retrieval
-            SEC = 0x27, //Security Feature Messages
-            HNR = 0x28, //High Rate Navigation Results Messages: High rate time, position, speed, heading
+            ACK_ACK     = GNSS_UBX_CLSID(0x05,0x01),
+            ACK_NACK    = GNSS_UBX_CLSID(0x05,0x00),
+
+            NAV_ODO     = GNSS_UBX_CLSID(0x01,0x09),
+
             UNKOWN
         };
 
@@ -53,9 +51,19 @@ namespace GNSS
         UBXFrame(const QByteArray&);
 
         //=================================
+        // Constructs an empty UBX frame
+        //=================================
+        UBXFrame() = default;
+
+        //=================================
+        //  Makes an empty frame for polling data
+        //=================================
+        static QByteArray makePollMessage(ClsId clsId, const QByteArray& options = {} );
+
+        //=================================
         //  Finds the UBX class of a raw frame
         //=================================
-        static Class findClass(const QByteArray& rawData);
+        static ClsId findClass(const QByteArray& rawData);
 
         //=================================
         //  Finds the UBX id of a raw frame
@@ -67,38 +75,27 @@ namespace GNSS
         //=================================
         inline bool isValid() const { return m_valid; }
 
-        //=================================
-        //  Returns id
-        //=================================
-        inline uint8_t getId() const { return m_id; }
-
 
     protected:
         bool m_valid = false;
-        Class m_class = Class::UNKOWN;
-        uint8_t m_id;
+        ClsId m_clsId = ClsId::UNKOWN;
         QByteArray m_payLoad;
 
         //=================================
         //  Process 8-Bit Fletcher checksum
         //=================================
-        void checksum(const QByteArray&);
+        void checksumCheck(const QByteArray&);
+
+        //=================================
+        //  Process 8-bit Fletcher checksum
+        //=================================
+        static QPair<int8_t,int8_t> checksum(const QByteArray&);
 
         //=================================
         //  Convert payLoad from 'index' to uint32_t with little-endian
         //=================================
         uint32_t plleToUint32(int index) const;
 
-    };
-
-    class UBXFrameACK : public UBXFrame
-    {
-    public:
-
-        UBXFrameACK(const QByteArray& rawData) : UBXFrame(rawData)
-        {}
-
-        inline bool isAcknowledged() const { return m_id; }
     };
 }
 

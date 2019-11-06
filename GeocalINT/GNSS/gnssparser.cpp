@@ -33,7 +33,8 @@ void Parser::createNMEAFrame(const QByteArray& rawData)
 
 void Parser::createUBXFrame(const QByteArray& rawData)
 {
-    switch( UBXFrame::findClass(rawData) )
+    QByteArray message = UBXFrame::makePollMessage(UBXFrame::ClsId::NAV_ODO);
+   /* switch( UBXFrame::findClass(rawData) )
     {
         case UBXFrame::Class::ACK : break;
         case UBXFrame::Class::NAV :
@@ -45,5 +46,6 @@ void Parser::createUBXFrame(const QByteArray& rawData)
         break;
         default: break;
     }
+    */
 }
 
