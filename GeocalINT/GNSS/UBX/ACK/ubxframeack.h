@@ -12,7 +12,7 @@ namespace GNSS
         UBXFrameACK(const QByteArray& rawData) : UBXFrame(rawData)
         {}
 
-        inline bool isAcknowledged() const { return m_id; }
+        inline bool isAcknowledged() const { return GNSS_UBX_ID(m_clsId); }
     };
 }
 #endif //UBXFRAMEACK_H

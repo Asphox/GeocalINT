@@ -4,7 +4,11 @@
 #include <QObject>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <QTimer>
+#include <GNSS/UBX/ubx.h>
 #include <iostream>
+
+#include <Utils/bytearraymanipulator.h>
 
 //===============================
 // Manages read and write opertions on the serial port
@@ -54,7 +58,7 @@ public:
     //=============================
     //  Writes an raw array on the serial port
     //=============================
-    inline void write(QByteArray&& rawData) { m_serialPort.write(rawData); }
+    inline void write(const QByteArray& rawData) { m_serialPort.write(rawData); }
 
 private:
 
@@ -62,6 +66,7 @@ private:
     QByteArray    m_receiveBuffer;
     QSerialPort::SerialPortError m_lastError = QSerialPort::SerialPortError::NoError;
     QString       m_lastErrorString = "";
+    QTimer* timer_test;
 
 private slots:
 
@@ -69,6 +74,9 @@ private slots:
     //  Slot called when some data are received on the serial port
     //=============================
     void onReadyRead();
+
+    void test();
+
 
 signals:
 

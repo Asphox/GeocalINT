@@ -26,10 +26,10 @@ namespace GNSS
         constexpr static uint8_t LENGTH_1_POS      = 4;
         constexpr static uint8_t LENGTH_2_POS      = 5;
         constexpr static uint8_t PAYLOAD_START_POS = 6;
-        constexpr static uint8_t CKA_ENDPOS        = 2;
-        constexpr static uint8_t CKB_ENDPOS        = 1;
-        constexpr static uint8_t CK_PROCESS_START_POS = 2;
-        constexpr static uint8_t CK_PROCESS_END_POSEND = 3;
+        constexpr static uint8_t CKA_ENDPOS        = 1;
+        constexpr static uint8_t CKB_ENDPOS        = 0;
+        constexpr static uint8_t CHKSUM_PROCESS_START_POS = 2;
+        constexpr static uint8_t CHKSUM_PROCESS_END_POSEND = 2;
 
         //==================
         //  Class of the UBX frame
@@ -41,7 +41,23 @@ namespace GNSS
 
             NAV_ODO     = GNSS_UBX_CLSID(0x01,0x09),
 
+            CFG_TP5     = GNSS_UBX_CLSID(0x06,0x31),
+
+            AID_EPH     = GNSS_UBX_CLSID(0x0B,0x31),
+
+            RXM_SFRBX   = GNSS_UBX_CLSID(0x02,0x13),
+
             UNKOWN
+        };
+
+
+        //==================
+        //  Checksum struct
+        //==================
+        struct ChkSum
+        {
+            int8_t a = 0;
+            int8_t b = 0;
         };
 
 
@@ -63,7 +79,7 @@ namespace GNSS
         //=================================
         //  Finds the UBX class of a raw frame
         //=================================
-        static ClsId findClass(const QByteArray& rawData);
+        static ClsId findClassId(const QByteArray& rawData);
 
         //=================================
         //  Finds the UBX id of a raw frame
@@ -89,12 +105,37 @@ namespace GNSS
         //=================================
         //  Process 8-bit Fletcher checksum
         //=================================
-        static QPair<int8_t,int8_t> checksum(const QByteArray&);
+        static ChkSum checksum(const QByteArray&);
+
+        //=================================
+        //  Convert payLoad from 'index' to uint8_t with little-endian
+        //=================================
+        uint8_t payload_LE_U1(int index) const;
+
+        //=================================
+        //  Convert payLoad from 'index' to int8_t with little-endian
+        //=================================
+        int8_t payload_LE_I1(int index) const;
+
+        //=================================
+        //  Convert payLoad from 'index' to uint16_t with little-endian
+        //=================================
+        uint16_t payload_LE_U2(int index) const;
+
+        //=================================
+        //  Convert payLoad from 'index' to int16_t with little-endian
+        //=================================
+        uint16_t payload_LE_I2(int index) const;
 
         //=================================
         //  Convert payLoad from 'index' to uint32_t with little-endian
         //=================================
-        uint32_t plleToUint32(int index) const;
+        uint32_t payload_LE_U4(int index) const;
+
+        //=================================
+        //  Convert payLoad from 'index' to int32_t with little-endian
+        //=================================
+        int32_t payload_LE_I4(int index) const;
 
     };
 }

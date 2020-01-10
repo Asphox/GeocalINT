@@ -48,6 +48,10 @@ namespace GNSS
 
         void UBXFrameNAV_ODO_created(UBXFrameNAV_ODO);
 
+        void UBXFrameAID_EPH_created(UBXFrameAID_EPH);
+
+        void UBXFrameRXM_SFRBX_created(UBXFrameRXM_SFRBX);
+
     };
 }
 

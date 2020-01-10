@@ -16,8 +16,8 @@ void Parser::parseData(QByteArray rawData)
         switch( findFrameTypeFromRaw(it) )
         {
             case FrameType::NMEA : createNMEAFrame(it); break;
-        case FrameType::UBX :
-            default : std::cout << "UNKOWN "; break;
+        case FrameType::UBX :   createUBXFrame(it); break;
+            default : std::cout << "UNKOWN " << std::endl; break;
         }
     }
 }
@@ -32,20 +32,12 @@ void Parser::createNMEAFrame(const QByteArray& rawData)
 }
 
 void Parser::createUBXFrame(const QByteArray& rawData)
-{
-    QByteArray message = UBXFrame::makePollMessage(UBXFrame::ClsId::NAV_ODO);
-   /* switch( UBXFrame::findClass(rawData) )
+{  
+    switch( UBXFrame::findClassId(rawData) )
     {
-        case UBXFrame::Class::ACK : break;
-        case UBXFrame::Class::NAV :
-            switch( static_cast<UBXFrameNAV::Id>(UBXFrameNAV::findId(rawData)) )
-            {
-                case UBXFrameNAV::Id::ODO : emit UBXFrameNAV_ODO_created(UBXFrameNAV_ODO(rawData)); break;
-                default: break;
-            }
-        break;
+        case UBXFrame::ClsId::AID_EPH :
+            emit UBXFrameAID_EPH_created( UBXFrameAID_EPH(rawData) ); break;
         default: break;
     }
-    */
 }
 

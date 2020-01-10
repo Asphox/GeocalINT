@@ -26,6 +26,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void testEPH( GNSS::UBXFrameAID_EPH );
+
 private:
     Ui::MainWindow *ui;
 

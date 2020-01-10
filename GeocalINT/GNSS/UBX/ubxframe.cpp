@@ -1,5 +1,7 @@
 #include "ubxframe.h"
 
+#include <iostream>
+
 using namespace GNSS;
 
 UBXFrame::UBXFrame(const QByteArray& rawData)
@@ -9,9 +11,10 @@ UBXFrame::UBXFrame(const QByteArray& rawData)
     m_payLoad = (rawData.chopped(2)).mid(6);
 }
 
-UBXFrame::ClsId UBXFrame::findClass(const QByteArray& rawData)
+UBXFrame::ClsId UBXFrame::findClassId(const QByteArray& rawData)
 {
-    return static_cast<ClsId>(rawData[CLASS_POS]);
+    UBXFrame::ClsId clsId = (ClsId)GNSS_UBX_CLSID(rawData[CLASS_POS],rawData[ID_POS]);
+    return clsId;
 }
 
 uint8_t UBXFrame::findId(const QByteArray& rawData)
@@ -21,42 +24,51 @@ uint8_t UBXFrame::findId(const QByteArray& rawData)
 
 QByteArray UBXFrame::makePollMessage(ClsId clsId, const QByteArray& options )
 {
-    QByteArray message = {SYNC_CHAR_1,SYNC_CHAR_2};
-    QPair<int8_t,int8_t> ck = checksum(options);
-    message += GNSS_UBX_CLS(clsId);
-    message += GNSS_UBX_ID(clsId);
-    message += static_cast<int8_t>(options.length());
+    QByteArray message;
+    message.push_back(SYNC_CHAR_1);
+    message.push_back(SYNC_CHAR_2);
+
+    message.push_back(GNSS_UBX_CLS(clsId));
+    message.push_back(GNSS_UBX_ID(clsId));
+
+    message.push_back(static_cast<int8_t>(options.length() & 0xFF));
+    message.push_back(static_cast<int8_t>((options.length()>>8) & 0xFF));
     for( auto it : options )
     {
-        message += it;
+        message.push_back(it);
     }
-    message += ck.first;
-    message += ck.second;
+
+    message.push_back('\0');
+    message.push_back('\0');
+
+    ChkSum sum = checksum(message);
+    message[message.length()-2] = sum.a;
+    message[message.length()-1] = sum.b;
 
     return message;
 }
 
 void UBXFrame::checksumCheck(const QByteArray& rawData)
 {
-    QPair<int8_t,int8_t> ck = checksum(rawData);
-    m_valid = (ck.first == rawData[rawData.size()-CKA_ENDPOS] && ck.second == rawData[rawData.size()-CKB_ENDPOS]);
+    ChkSum sum = checksum(rawData);
+    m_valid = (sum.a == rawData[rawData.size()-CKA_ENDPOS] && sum.a == rawData[rawData.size()-CKB_ENDPOS]);
 }
 
-QPair<int8_t,int8_t> UBXFrame::checksum(const QByteArray& rawData)
+UBXFrame::ChkSum UBXFrame::checksum(const QByteArray& message)
 {
-    int8_t CK_A=0, CK_B=0;
-    for( int i=CK_PROCESS_START_POS; i<=rawData.size()-CK_PROCESS_END_POSEND; i++)
+    ChkSum sum;
+    for(int i=CHKSUM_PROCESS_START_POS; i<(message.length()-CHKSUM_PROCESS_END_POSEND); i++)
     {
-        CK_A += rawData[i];
-        CK_B += CK_A;
+        sum.a += message[i];
+        sum.b += sum.a;
     }
-    return QPair<int8_t,int8_t>(CK_A,CK_B);
+    return sum;
 }
 
-uint32_t UBXFrame::plleToUint32(int index) const
+uint32_t UBXFrame::payload_LE_U4(int index) const
 {
-    return static_cast<uint32_t>(m_payLoad[index])          |
-           static_cast<uint32_t>(m_payLoad[index+1])  << 8  |
-           static_cast<uint32_t>(m_payLoad[index+2])  << 16 |
-           static_cast<uint32_t>(m_payLoad[index+3])  << 24 ;
+    return static_cast<int32_t>(static_cast<uint8_t>(m_payLoad[index]))          |
+           static_cast<int32_t>(static_cast<uint8_t>(m_payLoad[index+1]))  << 8  |
+           static_cast<int32_t>(static_cast<uint8_t>(m_payLoad[index+2]))  << 16 |
+           static_cast<int32_t>(static_cast<uint8_t>(m_payLoad[index+3]))  << 24 ;
 }

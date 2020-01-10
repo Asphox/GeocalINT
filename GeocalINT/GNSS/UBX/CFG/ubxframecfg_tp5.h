@@ -1,40 +1,17 @@
-#ifndef UBXFRAMENAV_ODO_H
-#define UBXFRAMENAV_ODO_H
+#ifndef UBXFRAMECFG_TP5_H
+#define UBXFRAMECFG_TP5_H
 
-#include <GNSS/UBX/NAV/ubxframenav.h>
+#include <GNSS/UBX/ubxframe.h>
 
 namespace GNSS
 {
-
-    class UBXFrameNAV_ODO : public UBXFrameNAV
+    class UBXFrameCFG_TP5 : public UBXFrame
     {
     public:
 
-        UBXFrameNAV_ODO(const QByteArray& rawData) : UBXFrameNAV(rawData)
+        UBXFrameCFG_TP5(const QByteArray& rawData) : UBXFrame(rawData)
         {}
-
-        inline uint8_t getVersion() const { return static_cast<uint8_t>(m_payLoad[0]); }
-
-        uint32_t getITOW() const
-        {
-            return plleToUint32(4);
-        }
-
-        uint32_t getDistance() const
-        {
-            return plleToUint32(8);
-        }
-
-        uint32_t getTotalDistance() const
-        {
-            return plleToUint32(12);
-        }
-
-        uint32_t getDistanceStd() const
-        {
-            return plleToUint32(16);
-        }
     };
 }
 
-#endif // UBXFRAMENAV_ODO_H
+#endif // UBXFRAMECFG_TP5_H

@@ -25,18 +25,22 @@ SOURCES += *.cpp \
     GNSS/UBX/ubxframe.cpp \
     GNSS/gnss.cpp \
     GNSS/gnssparser.cpp \
+    Utils/bytearraymanipulator.cpp \
     Utils/stringhtml.cpp
 
 HEADERS += *.h \
     GNSS/NMEA/nmeaframe.h \
     GNSS/UBX/ACK/ubxframeack.h \
+    GNSS/UBX/AID/ubxframeaid_eph.h \
     GNSS/UBX/CFG/ubxframecfg_tp5.h \
-    GNSS/UBX/NAV/ubxframenav.h \
+    GNSS/UBX/Ephemeris.h \
     GNSS/UBX/NAV/ubxframenav_odo.h \
+    GNSS/UBX/RXM/ubxframerxm_sfrbx.h \
     GNSS/UBX/ubx.h \
     GNSS/UBX/ubxframe.h \
     GNSS/gnss.h \
     GNSS/gnssparser.h \
+    Utils/bytearraymanipulator.h \
     Utils/stringhtml.h
 
 FORMS += \
