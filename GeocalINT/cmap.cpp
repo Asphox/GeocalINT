@@ -10,6 +10,6 @@ CMap::CMap(const QString& qmlUrl, QWidget* parent) : QQuickWidget(parent)
 void CMap::onNMEAFrameGLLCreated(GNSS::NMEAFrameGLL gll)
 {
 
-    rootObject()->setProperty("lat",gll.getLat());
-    rootObject()->setProperty("lon",gll.getLon());
+    rootObject()->setProperty("latNMEA",gll.getLat());
+    rootObject()->setProperty("lonNMEA",gll.getLon());
 }

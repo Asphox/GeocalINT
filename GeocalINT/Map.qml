@@ -8,8 +8,10 @@ Item {
     id: item
     objectName: "item"
     property real alt
-    property real lat
-    property real lon
+    property real latNMEA
+    property real lonNMEA
+    property real latRAW
+    property real lonRAW
 
 
     Plugin{
@@ -25,23 +27,29 @@ Item {
         anchors.fill: parent
         plugin: mapPlugin
 
-        MapCircle{      //Pinpoint de la position
+        /*MapCircle{      //Pinpoint de la position
             id: pinPoint
             objectName: "circle"
             color: "red"
             radius: 1
             center: QtPositioning.coordinate(lat,lon)
+        }*/
+
+        MapQuickItem {
+            id: nmea
+            sourceItem: Image{source :"pinNMEA.png"}
+            coordinate :QtPositioning.coordinate(latNMEA,lonNMEA)
+            opacity:1.0
+            anchorPoint: Qt.point(sourceItem.width/2, sourceItem.height)
         }
 
-        /*MapQuickItem{
-            id: pinPointImage
-            sourceItem: Image{
-                id: imagePinPoint
-                source: "qrc:/placeholder.png"
-            }
-            anchorPoint.x: imagePinPoint.width/2
-            anchorPoint.y: imagePinPoint.height
-        }*/
+        MapQuickItem {
+            id: raw
+            sourceItem: Image{source :"pinRAW.png"}
+            coordinate :QtPositioning.coordinate(latRAW,lonRAW)
+            opacity:1.0
+            anchorPoint: Qt.point(sourceItem.width/2, sourceItem.height)
+        }
 
         SideBar{        //Appel des sliders zoom et rotation
             id: side
