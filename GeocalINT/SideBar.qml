@@ -51,9 +51,11 @@ Item {
 
                 }
 
-                Row{    //Not used yet, a click on the refresh button will actualise the position, and the checkbox will refresh
+                Column{    //Not used yet, a click on the refresh button will actualise the position, and the checkbox will refresh
+                    width: parent.width
                     Button{
                         id: refreshPosition
+                        width: parent.width
                         text: "Refresh"
 
                         onClicked: {
@@ -63,6 +65,7 @@ Item {
 
                     CheckBox{
                         id: constRefresh
+                        width: parent.width
                         text: "Constant"
                     }
                 }
