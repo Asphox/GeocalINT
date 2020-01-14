@@ -31,6 +31,12 @@ namespace GNSS
         constexpr static int IOCDLSB_BIT_SIZE = 8;
         constexpr static int IOCDLSB_BIT_OFFSET = 16;
 
+        constexpr static int TGD_BIT_SIZE = 8;
+        constexpr static int TGD_BIT_OFFSET = 0;
+
+        constexpr static int TOC_BIT_SIZE = 16;
+        constexpr static int TOC_BIT_OFFSET = 0;
+
         constexpr static int WORD_BIT_SIZE = 32;
         UBXFrameAID_EPH(const QByteArray& array) : UBXFrame(array)
         {
@@ -96,11 +102,11 @@ namespace GNSS
             }
         }
 
-        uint32_t getSVHealth()
+        uint8_t getSVHealth()
         {
             if( hasEphemeris() )
             {
-                return getField(1,SVH_BIT_SIZE,SVH_BIT_OFFSET);
+                return (uint8_t)(getField(1,SVH_BIT_SIZE,SVH_BIT_OFFSET) & 0x3F);
             }
             else
             {
@@ -108,11 +114,35 @@ namespace GNSS
             }
         }
 
-        uint32_t getIOCD()
+        uint16_t getIOCD()
         {
             if( hasEphemeris() )
             {
-                return (getField(1,IOCDMSB_BIT_SIZE,IOCDLSB_BIT_OFFSET)<<8)|getField(8,IOCDLSB_BIT_SIZE,IOCDLSB_BIT_OFFSET);
+                return (uint16_t)(((getField(1,IOCDMSB_BIT_SIZE,IOCDLSB_BIT_OFFSET)<<8)|getField(8,IOCDLSB_BIT_SIZE,IOCDLSB_BIT_OFFSET)) & 0xFFFF);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        int8_t getTgd()
+        {
+            if( hasEphemeris() )
+            {
+                return (int8_t)(getField(7,TGD_BIT_SIZE,TGD_BIT_OFFSET) & 0xFF);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        uint16_t getToc()
+        {
+            if( hasEphemeris() )
+            {
+                return (uint16_t)(getField(8,TOC_BIT_SIZE,TOC_BIT_OFFSET) & 0xFFFF);
             }
             else
             {

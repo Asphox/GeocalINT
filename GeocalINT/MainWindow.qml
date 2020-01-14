@@ -36,10 +36,10 @@ Item {
 
         Map{
             id:mapTab
-            latNMEA: parent.latNMEA
-            lonNMEA: parent.lonNMEA
-            latRAW: parent.latRAW
-            lonRAW: parent.lonNMEA
+            latNMEA: mainWindow.latNMEA
+            lonNMEA: mainWindow.lonNMEA
+            latRAW: mainWindow.latRAW
+            lonRAW: mainWindow.lonRAW
         }
 
         Item {

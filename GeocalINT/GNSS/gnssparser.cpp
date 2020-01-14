@@ -9,16 +9,23 @@ Parser::Parser(QObject *parent) : QObject(parent)
 
 void Parser::parseData(QByteArray rawData)
 {
-    QList<QByteArray> list = rawData.split('\n');
-    for( auto it : list )
+    if( findFrameTypeFromRaw(rawData) == FrameType::NMEA )
     {
-        it.remove(it.indexOf('\r'),1);
-        switch( findFrameTypeFromRaw(it) )
+        rawData.remove(rawData.size()-2,2);
+        QList<QByteArray> list = rawData.split('\n');
+        for( auto it : list )
         {
-            case FrameType::NMEA : createNMEAFrame(it); break;
-        case FrameType::UBX :   createUBXFrame(it); break;
-            default : std::cout << "UNKOWN " << std::endl; break;
+            it.remove(it.indexOf('\r'),1);
+            createNMEAFrame(it);
         }
+    }
+    else if( findFrameTypeFromRaw(rawData) == FrameType::UBX )
+    {
+        createUBXFrame(rawData);
+    }
+    else
+    {
+        std::cout << "UNKNOWN" << std::endl;
     }
 }
 
@@ -32,7 +39,8 @@ void Parser::createNMEAFrame(const QByteArray& rawData)
 }
 
 void Parser::createUBXFrame(const QByteArray& rawData)
-{  
+{
+        displayQByteArray(rawData,std::hex);
     switch( UBXFrame::findClassId(rawData) )
     {
         case UBXFrame::ClsId::AID_EPH :

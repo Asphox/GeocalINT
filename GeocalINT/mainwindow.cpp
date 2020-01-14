@@ -11,7 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
     setStatusBar(m_statusBar);
 
     m_map = new CMap("qrc:/MainWindow.qml",this);
-    ui->TW_mainTabs->addTab(m_map,tr("MainWindow"));
+
+    setCentralWidget(m_map);
+
+   // ui->TW_mainTabs->addTab(m_map,tr("MainWindow"));
 
     connect(&m_serialManager,SIGNAL(dataReceived(QByteArray)),&m_gnssParser,SLOT(parseData(QByteArray)));
     connect(&m_gnssParser,&GNSS::Parser::NMEAFrameGLL_created,m_map,&CMap::onNMEAFrameGLLCreated);
