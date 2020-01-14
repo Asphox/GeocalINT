@@ -5,8 +5,9 @@ import QtQuick.Controls 2.5
 
 
 Item {
-    id: item
-    objectName: "item"
+    id: map
+    width: parent.width
+    height: parent.height
     property real alt
     property real latNMEA
     property real lonNMEA
@@ -26,14 +27,6 @@ Item {
         objectName: "mapViewer"
         anchors.fill: parent
         plugin: mapPlugin
-
-        /*MapCircle{      //Pinpoint de la position
-            id: pinPoint
-            objectName: "circle"
-            color: "red"
-            radius: 1
-            center: QtPositioning.coordinate(lat,lon)
-        }*/
 
         MapQuickItem {
             id: nmea
@@ -56,7 +49,7 @@ Item {
         }
         zoomLevel: side.zoom
         bearing: side.rot
-        center: QtPositioning.coordinate(lat, lon)
+        center: QtPositioning.coordinate(latRAW, lonRAW)
     }
 }
 

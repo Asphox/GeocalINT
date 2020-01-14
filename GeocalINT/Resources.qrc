@@ -4,5 +4,7 @@
         <file>SideBar.qml</file>
         <file>pinNMEA.png</file>
         <file>pinRAW.png</file>
+        <file>MainWindow.qml</file>
+        <file>MenuBar.qml</file>
     </qresource>
 </RCC>
