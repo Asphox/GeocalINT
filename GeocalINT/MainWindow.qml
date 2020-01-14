@@ -19,13 +19,15 @@ Item {
         width: parent.width
         TabButton {
             text: qsTr("Map")
-
+            onClicked: side.visible = true
         }
         TabButton {
             text: qsTr("GNSS Output")
+            onClicked: side.visible = false
         }
         TabButton {
             text: qsTr("Other")
+            onClicked: side.visible = false
         }
     }
     StackLayout {
@@ -34,13 +36,23 @@ Item {
         anchors.top:bar.bottom
         currentIndex: bar.currentIndex
 
-        Map{
-            id:mapTab
-            latNMEA: mainWindow.latNMEA
-            lonNMEA: mainWindow.lonNMEA
-            latRAW: mainWindow.latRAW
-            lonRAW: mainWindow.lonRAW
+        Item {
+            id: firstTab
+            Map{
+                id:mapTab
+                latNMEA: mainWindow.latNMEA
+                lonNMEA: mainWindow.lonNMEA
+                latRAW: mainWindow.latRAW
+                lonRAW: mainWindow.lonRAW
+                zoom: side.zoom
+                rot: side.rot
+            }
+            SideBar{        //Appel des sliders zoom et rotation
+                id: side
+
+            }
         }
+
 
         Item {
             id: redTab

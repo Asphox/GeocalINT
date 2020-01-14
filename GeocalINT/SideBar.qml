@@ -7,123 +7,85 @@ import QtQuick.Layouts 1.3
 Item {
     width:parent.width
     height: parent.height
-    anchors.fill: parent
-    property double zoom : sliderZoom.value
-    property double rot : sliderRot.value
-    property double latitude
-    property double longitude
+    property real zoom : sliderZoom.value
+    property real rot : sliderRot.value
+    visible: true
 
-    Rectangle{
-        id: containerPopup
+
+    Button{
+        id: openButton
+        height: parent.height
+        width: parent.width*0.03
+        visible: true
+        Text {
+            rotation: 270
+            anchors.centerIn: parent
+            text: "Open"
+        }
+        onClicked: {
+            closeButton.visible = true
+            openButton.visible = false
+            popupControls.visible = true
+        }
+    }
+
+    Button{
+        id: closeButton
+        height: openButton.height
+        width: openButton.width
+        x : popupControls.width
+        visible: false
+        Text {
+            rotation: 270
+            anchors.centerIn: parent
+            text: "Close"
+        }
+        onClicked:{
+            closeButton.visible = false
+            openButton.visible = true
+            popupControls.visible = false
+        }
+    }
+
+
+    Rectangle {
+        id: popupControls
         width: parent.width*0.15
         height: parent.height
+        opacity: 1
         visible: false
-
-        Popup {
-            id: popupControls
-            width: parent.width
+        //closePolicy: Popup.CloseOnPressOutside
+        Column{
+            spacing: 10
             height: parent.height
-            opacity: 1
-            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideThis
-
-            Column{
-                spacing: 10
-                height: parent.height
+            width: parent.width*0.9
+            anchors.centerIn: parent
+            Slider{     //Slider pour le zoom
+                id: sliderZoom
                 width: parent.width
-
-                Slider{     //Slider pour le zoom
-                    id: sliderZoom
-                    width: parent.width
-                    from: 3
-                    to: 20
-                    value: 14
-                    signal sliderZoomMoved
-                    //onMoved: console.log(value)
-
-                }
-
-                Slider{     //Slider pour la rotation de la map
-                    id: sliderRot
-                    width: parent.width
-                    from:0
-                    to: 360
-                    value:0
-
-                }
-
-                Column{    //Not used yet, a click on the refresh button will actualise the position, and the checkbox will refresh
-                    width: parent.width
-                    Button{
-                        id: refreshPosition
-                        width: parent.width
-                        text: "Refresh"
-
-                        onClicked: {
-                        }
-
-                    }
-
-                    CheckBox{
-                        id: constRefresh
-                        width: parent.width
-                        text: "Constant"
-                    }
-                }
+                from: 3
+                to: 20
+                value: 14
             }
-        }
-    }
 
-    Rectangle{
-        x:parent.width*0.15
-        y:0
-        width: parent.width*0.03
-        height: parent.height
-        visible: false
-
-        Popup{
-            id: popupClose
-            width: parent.width
-            height: parent.height
-            opacity: 0.7
-            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideThis
-
-            MouseArea{
-                id: mousePopOff
+            Slider{     //Slider pour la rotation de la map
+                id: sliderRot
                 width: parent.width
-                height: parent.height
-                onClicked:{
-                    popupClose.close()
-                    popupControls.close()
-                }
-                Text {
-                    id: textClose
-                    text: qsTr("Close")
-                    rotation: 270
-                    anchors.centerIn: parent
-                }
+                from:0
+                to: 360
+                value:0
             }
-        }
-    }
 
-    Rectangle{
-        color: "white"
-        opacity: 0.7
-        border.width:1
-        width: parent.width*0.03
-        height: parent.height
-
-        MouseArea{
-            id: mousePopUp
-            anchors.fill: parent
-            onClicked: {
-                popupClose.open()
-                popupControls.open()
+            Button{
+                id: refreshPosition
+                width: parent.width
+                text: "Refresh"
             }
-            Text {
-                id: textOpen
-                text: qsTr("Open")
-                rotation: 270
-                anchors.centerIn: parent
+
+            CheckBox{
+                id: constRefresh
+                width: parent.width
+                text: "Constant"
             }
         }
     }

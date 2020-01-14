@@ -13,6 +13,8 @@ Item {
     property real lonNMEA
     property real latRAW
     property real lonRAW
+    property real zoom
+    property real rot
 
 
     Plugin{
@@ -27,6 +29,7 @@ Item {
         objectName: "mapViewer"
         anchors.fill: parent
         plugin: mapPlugin
+
 
         MapQuickItem {
             id: nmea
@@ -43,12 +46,8 @@ Item {
             opacity:1.0
             anchorPoint: Qt.point(sourceItem.width/2, sourceItem.height)
         }
-
-        SideBar{        //Appel des sliders zoom et rotation
-            id: side
-        }
-        zoomLevel: side.zoom
-        bearing: side.rot
+        zoomLevel: map.zoom
+        bearing: map.rot
         center: QtPositioning.coordinate(latRAW, lonRAW)
     }
 }
