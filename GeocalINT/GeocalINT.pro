@@ -1,6 +1,6 @@
 QT       += core gui serialport location qml positioning quickwidgets quickcontrols2
 
-CONFIG += c++11
+CONFIG += c++14
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -32,6 +32,7 @@ HEADERS += *.h \
     GNSS/NMEA/nmeaframe.h \
     GNSS/UBX/ACK/ubxframeack.h \
     GNSS/UBX/AID/ubxframeaid_eph.h \
+    GNSS/UBX/AID/ubxframeaid_eph_defines.h \
     GNSS/UBX/CFG/ubxframecfg_tp5.h \
     GNSS/UBX/Ephemeris.h \
     GNSS/UBX/NAV/ubxframenav_odo.h \

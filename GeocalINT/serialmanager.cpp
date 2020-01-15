@@ -17,7 +17,7 @@ bool SerialManager::connect(const QString& name, const QString& baudrate)
 {
     m_serialPort.setPortName(name);
     m_serialPort.setBaudRate(baudrate.toInt());
-    timer_test->start(1000);
+    timer_test->start(250);
     return m_serialPort.open(QIODevice::ReadWrite);
 }
 
