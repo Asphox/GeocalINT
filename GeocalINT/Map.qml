@@ -30,7 +30,6 @@ Item {
         anchors.fill: parent
         plugin: mapPlugin
 
-
         MapQuickItem {
             id: nmea
             sourceItem: Image{source :"pinNMEA.png"}

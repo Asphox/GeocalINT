@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.11
 ListModel{
     id: liste
     ListElement{
-        svid : "2"
+        svid : 2
         af0 : 854819
         af1 : 721
         af2 : 2
