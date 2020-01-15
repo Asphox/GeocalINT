@@ -11,7 +11,7 @@ Item {
     property real latRAW : 48.86666 //test affichage RAW sans calcul ni module
     property real lonRAW : 2.333333
     property QtObject listeSatellites
-
+    Component.onCompleted: console.log(listeSatellites)
     TabBar {
         id: bar
         width: parent.width

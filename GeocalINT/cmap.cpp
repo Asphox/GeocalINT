@@ -20,8 +20,7 @@ void CMap::onUBXFrameAID_EPHCreated(GNSS::UBXFrameAID_EPH eph)
     {
         std::cout << "ENVOIE" << std::endl;
         QStringList test;
-        test.append("caca1");
-        test.append("caca2");
+        test.append({"svid","iodc","tgd","toc","af0","af1","af2","iode","crs","dn","m0","cuc","e","sqrtA","toe","fit","cic","omega0","i0","crc","omega","omegap","idot"});
         rootObject()->setProperty("listeSatellites",test);
     }
 }
