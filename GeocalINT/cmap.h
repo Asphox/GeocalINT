@@ -8,6 +8,8 @@
 #include <QQuickItem>
 #include <QTimer>
 #include <GNSS/NMEA/nmeaframe.h>
+#include <GNSS/UBX/AID/ubxframeaid_eph.h>
+#include <QList>
 
 //=========================
 //  Custom widget handling the QML based geomap
@@ -23,6 +25,12 @@ public slots:
     // Slot called when an GLL NMEA Frame is constructed
     //===========================
     void onNMEAFrameGLLCreated(GNSS::NMEAFrameGLL);
+
+
+    //===========================
+    // Slot called when an UBX AID-EPH frame is constructed
+    //===========================
+    void onUBXFrameAID_EPHCreated(GNSS::UBXFrameAID_EPH);
 };
 
 #endif // CMAP_H

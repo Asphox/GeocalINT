@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_serialManager,SIGNAL(dataReceived(QByteArray)),&m_gnssParser,SLOT(parseData(QByteArray)));
     connect(&m_gnssParser,&GNSS::Parser::NMEAFrameGLL_created,m_map,&CMap::onNMEAFrameGLLCreated);
     connect(&m_gnssParser,&GNSS::Parser::UBXFrameAID_EPH_created,this,&MainWindow::testEPH);
+    connect(&m_gnssParser,&GNSS::Parser::UBXFrameAID_EPH_created,m_map,&CMap::onUBXFrameAID_EPHCreated);
 
 }
 
