@@ -10,26 +10,22 @@ Item {
     property real lonNMEA
     property real latRAW : 48.86666 //test affichage RAW sans calcul ni module
     property real lonRAW : 2.333333
+    property QtObject listeSatellites
 
-    /*MenuBar{
-        id:embeddedMenu
-    }*/
     TabBar {
         id: bar
         width: parent.width
         TabButton {
             text: qsTr("Map")
-            onClicked: side.visible = true
         }
         TabButton {
             text: qsTr("GNSS Output")
-            onClicked: side.visible = false
         }
         TabButton {
             text: qsTr("Other")
-            onClicked: side.visible = false
         }
     }
+
     StackLayout {
         width: parent.width
         height: parent.height
@@ -55,10 +51,10 @@ Item {
 
 
         Item {
-            id: redTab
-            Rectangle{
-                anchors.fill: parent
-                color: 'red'
+            id: secondTab
+            Tableau{
+                id:tableau
+                model: listeSatellites
             }
         }
         Item {
