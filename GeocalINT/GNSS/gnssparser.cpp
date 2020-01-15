@@ -40,7 +40,6 @@ void Parser::createNMEAFrame(const QByteArray& rawData)
 
 void Parser::createUBXFrame(const QByteArray& rawData)
 {
-        displayQByteArray(rawData,std::hex);
     switch( UBXFrame::findClassId(rawData) )
     {
         case UBXFrame::ClsId::AID_EPH :
