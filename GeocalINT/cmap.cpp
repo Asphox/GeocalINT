@@ -36,4 +36,6 @@ void CMap::test()
          << 121.0 << 2190.11 << 1.0001 << 5283
          << 12111 << 0 << 21111 << 31333
          << 1412 << 99100.11 << 1991.00 << 42;
+
+    QMetaObject::invokeMethod(rootObject(), "readValue",Q_ARG(QVariant, QVariant::fromValue(list)));
 }

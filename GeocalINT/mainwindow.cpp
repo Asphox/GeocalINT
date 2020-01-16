@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::testEPH( GNSS::UBXFrameAID_EPH frame )
 {
+    m_map->test();
     std::cout << "====================================" << std::endl;
     std::cout << std::dec << "svid : " << frame.getSVID() << std::endl;
     std::cout << "has ephemeris : " << frame.hasEphemeris() << std::endl;
