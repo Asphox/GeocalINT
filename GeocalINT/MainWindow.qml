@@ -56,11 +56,11 @@ Item {
                 id:tableau
                 model: listeSatellites
             }
-            ListModel{
+            /*ListModel{
                 id:listeSatellites
-            }
-            Button{
-                onClicked : listeSatellites.append(listeTest)
+            }*/
+            ListeSatellites{
+                id:ceciEstUnTest
             }
         }
 
