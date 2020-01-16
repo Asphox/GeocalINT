@@ -31,6 +31,10 @@ public slots:
     // Slot called when an UBX AID-EPH frame is constructed
     //===========================
     void onUBXFrameAID_EPHCreated(GNSS::UBXFrameAID_EPH);
+
+    void simuleSend();
+
+    void test();
 };
 
 #endif // CMAP_H
