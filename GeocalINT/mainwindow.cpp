@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_map = new CMap("qrc:/MainWindow.qml",this);
 
+    m_satManager = new GNSS::SatManager(m_map,this);
+
     setCentralWidget(m_map);
 
    // ui->TW_mainTabs->addTab(m_map,tr("MainWindow"));
@@ -19,13 +21,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_serialManager,SIGNAL(dataReceived(QByteArray)),&m_gnssParser,SLOT(parseData(QByteArray)));
     connect(&m_gnssParser,&GNSS::Parser::NMEAFrameGLL_created,m_map,&CMap::onNMEAFrameGLLCreated);
     connect(&m_gnssParser,&GNSS::Parser::UBXFrameAID_EPH_created,this,&MainWindow::testEPH);
-    connect(&m_gnssParser,&GNSS::Parser::UBXFrameAID_EPH_created,m_map,&CMap::onUBXFrameAID_EPHCreated);
+    //connect(&m_gnssParser,&GNSS::Parser::UBXFrameAID_EPH_created,m_map,&CMap::onUBXFrameAID_EPHCreated);
+    connect(&m_gnssParser,&GNSS::Parser::UBXFrameAID_EPH_created,m_satManager,&GNSS::SatManager::onUBX_EPH);
 
 }
 
 void MainWindow::testEPH( GNSS::UBXFrameAID_EPH frame )
 {
-    m_map->test();
+  /*  m_map->test();
     std::cout << "====================================" << std::endl;
     std::cout << std::dec << "svid : " << frame.getSVID() << std::endl;
     std::cout << "has ephemeris : " << frame.hasEphemeris() << std::endl;
@@ -58,7 +61,7 @@ void MainWindow::testEPH( GNSS::UBXFrameAID_EPH frame )
         std::cout << "OMEGA : " << frame.getScaledOMEGA() << std::endl;
         std::cout << "OMEGAP : " << frame.getScaledOMEGAP() << std::endl;
         std::cout << "IDOT : " << frame.getScaledIDOT() << std::endl;
-    }
+    }*/
 }
 
 MainWindow::~MainWindow()

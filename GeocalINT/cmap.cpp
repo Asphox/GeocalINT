@@ -16,15 +16,22 @@ void CMap::onNMEAFrameGLLCreated(GNSS::NMEAFrameGLL gll)
 
 void CMap::onUBXFrameAID_EPHCreated(GNSS::UBXFrameAID_EPH eph)
 {
-    if( eph.hasEphemeris() )
+
+}
+
+void CMap::updateSatQML(const QMap<uint32_t, GNSS::UBXFrameAID_EPH>& m_map)
+{
+    QMetaObject::invokeMethod(rootObject(), "clearData");
+    QVariantList list;
+    for( auto it : m_map )
     {
-        QVariantList list;
-        list << eph.getSVID() << eph.getIOCD() << eph.getTgd() << eph.getToc() << eph.getF0()
-             << eph.getF1() << eph.getF2() << eph.getIODE() << eph.getScaledCRS() << eph.getScaledDN()
-             << eph.getScaledM0() << eph.getScaledCUC() << eph.getScaledE() << eph.getScaledSqrtA()
-             << eph.getScaledTOE() << eph.getFIT() << eph.getScaledCic() << eph.getScaledOMEGA0()
-             << eph.getScaledI0() << eph.getScaledCRS() << eph.getScaledOMEGA() << eph.getScaledIDOT();
-        //rootObject()->setProperty("listeSatellites",test);
+        list << it.getSVID() << it.getIOCD() << it.getTgd() << it.getToc() << it.getF0()
+             << it.getF1() << it.getF2() << it.getIODE() << it.getScaledCRS() << it.getScaledDN()
+             << it.getScaledM0() << it.getScaledCUC() << it.getScaledE() << it.getScaledSqrtA()
+             << it.getScaledTOE() << it.getFIT() << it.getScaledCic() << it.getScaledOMEGA0()
+             << it.getScaledI0() << it.getScaledCrc() << it.getScaledOMEGA() << it.getScaledOMEGAP() << it.getScaledIDOT();
+        QMetaObject::invokeMethod(rootObject(), "addData",Q_ARG(QVariant, QVariant::fromValue(list)));
+        list.clear();
     }
 }
 
@@ -37,5 +44,5 @@ void CMap::test()
          << 12111 << 0 << 21111 << 31333
          << 1412 << 99100.11 << 1991.00 << 42;
 
-    QMetaObject::invokeMethod(rootObject(), "readValue",Q_ARG(QVariant, QVariant::fromValue(list)));
+    //QMetaObject::invokeMethod(rootObject(), "addData",Q_ARG(QVariant, QVariant::fromValue(list)));
 }

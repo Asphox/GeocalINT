@@ -25,6 +25,7 @@ SOURCES += *.cpp \
     GNSS/UBX/ubxframe.cpp \
     GNSS/gnss.cpp \
     GNSS/gnssparser.cpp \
+    GNSS/satmanager.cpp \
     Utils/bytearraymanipulator.cpp \
     Utils/stringhtml.cpp
 
@@ -41,6 +42,7 @@ HEADERS += *.h \
     GNSS/UBX/ubxframe.h \
     GNSS/gnss.h \
     GNSS/gnssparser.h \
+    GNSS/satmanager.h \
     Utils/bytearraymanipulator.h \
     Utils/stringhtml.h
 

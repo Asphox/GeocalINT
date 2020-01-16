@@ -14,7 +14,7 @@ Item {
     property int weekNumber
 
     function addData(carray){
-        console.log(carray)
+        //console.log(carray)
         ephemerisData.svid = carray[0]
         ephemerisData.iodc = carray[1]
         ephemerisData.tgd = carray[2]

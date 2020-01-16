@@ -8,6 +8,7 @@
 #include "cmap.h"
 #include <GNSS/gnssparser.h>
 #include <GNSS/gnss.h>
+#include <GNSS/satmanager.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,6 +35,7 @@ private:
 
     SerialManager m_serialManager;
     GNSS::Parser  m_gnssParser;
+    GNSS::SatManager* m_satManager;
     CStatusBar*   m_statusBar;
     CMap*         m_map;
 };

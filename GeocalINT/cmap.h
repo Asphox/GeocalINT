@@ -32,6 +32,8 @@ public slots:
     //===========================
     void onUBXFrameAID_EPHCreated(GNSS::UBXFrameAID_EPH);
 
+
+    void updateSatQML(const QMap<uint32_t,GNSS::UBXFrameAID_EPH>&);
     void test();
 };
 

@@ -17,8 +17,6 @@ namespace GNSS
         constexpr static int WORD_BIT_SIZE = 32;
         UBXFrameAID_EPH(const QByteArray& array) : UBXFrame(array)
         {
-            std::cout << cpow(2,8) << std::endl;
-            // displayQByteArray(m_payLoad,std::hex);
         }
 
         inline uint32_t getSVID()
