@@ -32,8 +32,6 @@ public slots:
     //===========================
     void onUBXFrameAID_EPHCreated(GNSS::UBXFrameAID_EPH);
 
-    void simuleSend();
-
     void test();
 };
 
