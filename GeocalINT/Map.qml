@@ -2,7 +2,8 @@ import QtQuick 2.3
 import QtPositioning 5.13
 import QtLocation 5.13
 import QtQuick.Controls 2.5
-
+import QtQuick.Controls 2.4
+import QtQuick.Controls 1.4
 
 Item {
     id: map

@@ -1,7 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 2.4
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.11
-
 
 Item {
     id: mainWindow
@@ -94,6 +94,7 @@ Item {
             Tab2Infographie{
                 id:infographie
                 anchors.top: tableau.bottom
+                anchors.left: tableau.left
                 weekNumber:  mainWindow.weekNumber
             }
         }
