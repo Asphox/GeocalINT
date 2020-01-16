@@ -6,6 +6,5 @@
         <file>pinRAW.png</file>
         <file>MainWindow.qml</file>
         <file>Tableau.qml</file>
-        <file>ListeSatellites.qml</file>
     </qresource>
 </RCC>

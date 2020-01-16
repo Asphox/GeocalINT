@@ -5,7 +5,9 @@ import QtQuick.Layouts 1.11
 
 
 TableView{
-    anchors.fill: parent
+    //anchors.fill: parent
+    width: parent.width
+    height: parent.height/2
     TableViewColumn {
         role: "svid"
         title: "SVID"
