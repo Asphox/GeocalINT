@@ -6,5 +6,6 @@
         <file>pinRAW.png</file>
         <file>MainWindow.qml</file>
         <file>Tableau.qml</file>
+        <file>Tab2Infographie.qml</file>
     </qresource>
 </RCC>

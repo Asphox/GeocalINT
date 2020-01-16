@@ -11,6 +11,7 @@ Item {
     property real latRAW : 48.86666 //test affichage RAW sans calcul ni module
     property real lonRAW : 2.333333
     property var ephemerisData : ({svid: 0, iodc: 1, tgd: 2, toc: 3, af0: 4, af1: 5, af2: 6, iode: 7, crs: 8, dn: 9, m0: 10, cuc: 11, e: 12, sqrtA: 13, toe: 14, fit: 22, cic: 15, omega0: 16, i0: 17, crc: 18, omega: 19, omegap: 20, idot: 21})
+    property int weekNumber
 
     function addData(carray){
         console.log(carray)
@@ -89,6 +90,11 @@ Item {
             }
             ListModel{
                 id:listeSatellites
+            }
+            Tab2Infographie{
+                id:infographie
+                anchors.top: tableau.bottom
+                weekNumber:  mainWindow.weekNumber
             }
         }
 
