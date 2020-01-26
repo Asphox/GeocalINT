@@ -52,6 +52,8 @@ namespace GNSS
 
         void UBXFrameRXM_SFRBX_created(UBXFrameRXM_SFRBX);
 
+        void UBXFrameNAV_TIMEGPS_created(UBXFrameNAV_TIMEGPS);
+
     };
 }
 

@@ -132,8 +132,8 @@ void SatManager::updatePos()
         Ik = i0 + idot*Tk + cic*cos(2*(w+Vk)) + cis*sin(2*(w+Vk));
 
         Lk = w0 + (wdot-we)*Tk - we*toe;
-
-
+        
+        
 
     }
 

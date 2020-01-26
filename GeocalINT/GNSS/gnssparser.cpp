@@ -44,6 +44,8 @@ void Parser::createUBXFrame(const QByteArray& rawData)
     {
         case UBXFrame::ClsId::AID_EPH :
             emit UBXFrameAID_EPH_created( UBXFrameAID_EPH(rawData) ); break;
+        case UBXFrame::ClsId::NAV_TIMEGPS :
+            emit UBXFrameNAV_TIMEGPS_created( UBXFrameNAV_TIMEGPS(rawData) ); break;
         default: break;
     }
 }

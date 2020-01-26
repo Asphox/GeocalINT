@@ -22,6 +22,7 @@ SOURCES += *.cpp \
     GNSS/UBX/CFG/ubxframecfg_tp5.cpp \
     GNSS/UBX/NAV/ubxframenav.cpp \
     GNSS/UBX/NAV/ubxframenav_odo.cpp \
+    GNSS/UBX/NAV/ubxframenav_timegps.cpp \
     GNSS/UBX/ubxframe.cpp \
     GNSS/gnss.cpp \
     GNSS/gnssparser.cpp \
@@ -37,6 +38,7 @@ HEADERS += *.h \
     GNSS/UBX/CFG/ubxframecfg_tp5.h \
     GNSS/UBX/Ephemeris.h \
     GNSS/UBX/NAV/ubxframenav_odo.h \
+    GNSS/UBX/NAV/ubxframenav_timegps.h \
     GNSS/UBX/RXM/ubxframerxm_sfrbx.h \
     GNSS/UBX/ubx.h \
     GNSS/UBX/ubxframe.h \
@@ -44,6 +46,7 @@ HEADERS += *.h \
     GNSS/gnssparser.h \
     GNSS/satmanager.h \
     Utils/bytearraymanipulator.h \
+    Utils/mathphy.h \
     Utils/stringhtml.h
 
 FORMS += \

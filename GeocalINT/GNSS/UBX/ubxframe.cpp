@@ -67,6 +67,14 @@ UBXFrame::ChkSum UBXFrame::checksum(const QByteArray& message)
 
 uint32_t UBXFrame::payload_LE_U4(int index) const
 {
+    return static_cast<uint32_t>(static_cast<uint8_t>(m_payLoad[index]))          |
+           static_cast<uint32_t>(static_cast<uint8_t>(m_payLoad[index+1]))  << 8  |
+           static_cast<uint32_t>(static_cast<uint8_t>(m_payLoad[index+2]))  << 16 |
+           static_cast<uint32_t>(static_cast<uint8_t>(m_payLoad[index+3]))  << 24 ;
+}
+
+int32_t UBXFrame::payload_LE_I4(int index) const
+{
     return static_cast<int32_t>(static_cast<uint8_t>(m_payLoad[index]))          |
            static_cast<int32_t>(static_cast<uint8_t>(m_payLoad[index+1]))  << 8  |
            static_cast<int32_t>(static_cast<uint8_t>(m_payLoad[index+2]))  << 16 |

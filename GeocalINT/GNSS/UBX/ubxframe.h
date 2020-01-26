@@ -41,6 +41,8 @@ namespace GNSS
 
             NAV_ODO     = GNSS_UBX_CLSID(0x01,0x09),
 
+            NAV_TIMEGPS = GNSS_UBX_CLSID(0x01,0x20),
+
             CFG_TP5     = GNSS_UBX_CLSID(0x06,0x31),
 
             AID_EPH     = GNSS_UBX_CLSID(0x0B,0x31),

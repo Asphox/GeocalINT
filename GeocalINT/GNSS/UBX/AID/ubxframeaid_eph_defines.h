@@ -3,24 +3,10 @@
 
 #include <cstdint>
 #include <cmath>
+#include <Utils/mathphy.h>
 
 namespace GNSS
 {
-
-constexpr double cpow(double base, int exp)
-{
-    if( exp < 0 )
-    {
-        base = 1/base;
-        exp = -exp;
-    }
-    if( exp == 1 )
-    {
-        return base;
-    }
-    return base*cpow(base,exp-1);
-}
-
 constexpr   int POS_SVID = 0;
 constexpr   int POS_HOW = 4;
 

@@ -10,27 +10,30 @@ SerialManager::SerialManager(QObject *parent) : QObject(parent)
     QObject::connect(&m_serialPort,&QSerialPort::readyRead,this,&SerialManager::onReadyRead);
 
     timer_test = new QTimer(this);
-    QObject::connect(timer_test,SIGNAL(timeout()),this,SLOT(test()));
+    //QObject::connect(timer_test,SIGNAL(timeout()),this,SLOT(test()));
 }
 
 bool SerialManager::connect(const QString& name, const QString& baudrate)
 {
     m_serialPort.setPortName(name);
     m_serialPort.setBaudRate(baudrate.toInt());
-    timer_test->start(50);
+    timer_test->start(5000);
     return m_serialPort.open(QIODevice::ReadWrite);
 }
 
 void SerialManager::test()
 {
-    static int i = 1;
+    /*static int i = 1;
     if( i == 33 ) i = 1;
     QByteArray params;
     params.push_back(i);
     auto tmp = GNSS::UBXFrame::makePollMessage(GNSS::UBXFrame::ClsId::AID_EPH,params);
-    //auto tmp = GNSS::UBXFrame::makePollMessage(GNSS::UBXFrame::ClsId::RXM_SFRBX);
     write(tmp);
-    i++;
+    i++;*/
+
+    auto tmp = GNSS::UBXFrame::makePollMessage(GNSS::UBXFrame::ClsId::NAV_TIMEGPS);
+    write(tmp);
+
 }
 
 void SerialManager::disconnect()

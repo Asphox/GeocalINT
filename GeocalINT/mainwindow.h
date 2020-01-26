@@ -9,6 +9,7 @@
 #include <GNSS/gnssparser.h>
 #include <GNSS/gnss.h>
 #include <GNSS/satmanager.h>
+#include <QFlags>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
