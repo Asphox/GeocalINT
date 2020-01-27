@@ -64,7 +64,7 @@ constexpr   double M0_SCALE_FACTOR = cpow(2,-31);   //semi-circles
 
 constexpr   int CUC_BIT_SIZE = 16;
 constexpr   int CUC_BIT_OFFSET = 8;
-constexpr   double CUC_SCALE_FACTOR = cpow(2,29);   //radians
+constexpr   double CUC_SCALE_FACTOR = cpow(2,-29);   //radians
 
 constexpr   int EMSB_BIT_SIZE = 8;
 constexpr   int EMSB_BIT_OFFSET = 0;
@@ -96,7 +96,7 @@ constexpr   int AODO_BIT_OFFSET = 2;
 
 constexpr   int CIC_BIT_SIZE = 16;
 constexpr   int CIC_BIT_OFFSET = 8;
-constexpr   double CIC_SCALE_FACTOR = cpow(2,-39);  //radians
+constexpr   double CIC_SCALE_FACTOR = cpow(2,-29);  //radians
 
 constexpr   int OMEGA0MSB_BIT_SIZE = 8;
 constexpr   int OMEGA0MSB_BIT_OFFSET = 0;

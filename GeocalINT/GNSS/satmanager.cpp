@@ -1,6 +1,8 @@
 #include "satmanager.h"
 
 using namespace GNSS;
+using Eigen::Matrix3d;
+using Eigen::Vector3d;
 
 SatManager::SatManager(CMap* map, SerialManager& serialManager, QObject *parent) : QObject(parent), m_map(map), m_serialManager(serialManager)
 {
@@ -35,6 +37,8 @@ void SatManager::onNAV_TIMEGPS(UBXFrameNAV_TIMEGPS time)
 {
     std::cout << time.getTimeGPS() << "s" << std::endl;
     m_currentGPSTime = time.getTimeGPS();
+
+        updatePos();
 }
 
 void SatManager::updateQML()
@@ -62,6 +66,7 @@ void SatManager::updateEphemeris()
 
 void SatManager::updatePos()
 {
+    std::cout << we << std::endl;
     if( m_detectedSatEphemeris.size() < 4 )
     {
         std::cerr << "Nombre sat insuffisant : " << m_detectedSatEphemeris.size() << "/4" << std::endl;
@@ -95,6 +100,8 @@ void SatManager::updatePos()
     double idot = 0;
     double toe = 0;
 
+    std::vector<Vector3d> cartesianSatsPos;
+
     for( auto& eph : m_detectedSatEphemeris )
     {
         m0 = eph.getScaledM0();
@@ -108,11 +115,13 @@ void SatManager::updatePos()
         cus = eph.getScaledCUS();
         crc = eph.getScaledCrc();
         crs = eph.getScaledCRS();
+        cic = eph.getScaledCic();
+        cis = eph.getScaledCis();
         i0 = eph.getScaledI0();
         idot = eph.getScaledIDOT();
         toe = eph.getScaledTOE();
 
-
+        //sans correction du clock sat bias
         Tk = m_currentGPSTime - toe;
         if( Tk > 302400 )
             Tk -= 604800;
@@ -121,10 +130,10 @@ void SatManager::updatePos()
 
         Mk = m0 + (sqrt(mu)/sqrt(pow(a,3))+dn)*Tk;
 
-        Ek = solveKepler(Mk,e);
+        Ek = solveKepler2(Mk,e);
 
-        Vk = atan((sqrt(1-e*e)*sin(Ek))/(cos(Ek)-e));
-
+        //Vk = atan2(sqrt(1-e*e)*sin(Ek),(cos(Ek)-e));
+        Vk = atan2((sqrt(1-e*e)*sin(Ek)/(1-e*cos(Ek))),(cos(Ek)-e)/(1-e*cos(Ek)));
         Uk = w + Vk + cuc*cos(2*(w+Vk)) + cus*sin(2*(w+Vk));
 
         Rk = a*(1-e*cos(Ek)) + crc*cos(2*(w+Vk)) + crs*sin(2*(w+Vk));
@@ -133,23 +142,64 @@ void SatManager::updatePos()
 
         Lk = w0 + (wdot-we)*Tk - we*toe;
 
+        Vector3d temp = calcCartesianSatPos(-Lk,-Ik,-Uk,Rk);
 
-
-    }
+        std::cout << std::endl << eph.getSVID() << std::endl;
+        std::cout << temp/1000.0 << std::endl;
+     }
 
 
 }
 
 double SatManager::solveKepler(double Mk, double e)
 {
-    double Ek = 0.0;
+    double Ek = 1;
     double Y = 0.0;
 
     do
     {
         Y = keplerEccFunction(Mk,e,Ek);
         Ek -= Y/keplerEccDerivative(e,Ek);
-    }while(Y > cpow(10,-12));
+    }while( abs(Y) > cpow(10,-12));
 
     return Ek;
+}
+
+double SatManager::solveKepler2(double Mk, double e)
+{
+    double Ek = Mk;
+    for(int i=0; i<10; i++)
+    {
+        Ek = Mk + e*sin(Ek);
+    }
+    return Ek;
+}
+
+Vector3d SatManager::calcCartesianSatPos(double theta1, double theta2, double theta3, double rk)
+{
+    Matrix3d R1,R31,R32;
+    Vector3d V(rk,0,0);
+    Vector3d ret;
+
+    R1(0,0) = 1;
+    R1(1,1) = cos(theta2);
+    R1(1,2) = sin(theta2);
+    R1(2,1) = -sin(theta2);
+    R1(2,2) = cos(theta2);
+
+    R32(0,0) = cos(theta3);
+    R32(0,1) = sin(theta3);
+    R32(1,0) = -sin(theta3);
+    R32(1,1) = cos(theta3);
+    R32(2,2) = 1;
+
+    R31(0,0) = cos(theta1);
+    R31(0,1) = sin(theta1);
+    R31(1,0) = -sin(theta1);
+    R31(1,1) = cos(theta1);
+    R31(2,2) = 1;
+
+    ret = R31*R1*R32*V;
+
+    return ret;
 }

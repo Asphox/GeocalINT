@@ -15,7 +15,7 @@ constexpr double cpow(double base, int exp)
     return base*cpow(base,exp-1);
 }
 
-constexpr double mu = 3.986004418*cpow(10.0,14);
+constexpr double mu = 3.986005*cpow(10.0,14);
 constexpr double we = 7.292115*cpow(10.0,-5);
 
 

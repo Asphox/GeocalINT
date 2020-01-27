@@ -336,7 +336,7 @@ namespace GNSS
         {
             if( hasEphemeris() )
             {
-                return (int32_t)((getField(19,I0MSB_BIT_SIZE,I0MSB_BIT_OFFSET)<<(32-I0MSB_BIT_OFFSET))|getField(20,I0LSB_BIT_SIZE,I0LSB_BIT_OFFSET));
+                return (int32_t)((getField(19,I0MSB_BIT_SIZE,I0MSB_BIT_OFFSET) & 0xFF)<<(32-I0MSB_BIT_SIZE))|(getField(20,I0LSB_BIT_SIZE,I0LSB_BIT_OFFSET));
             }
             else
             {

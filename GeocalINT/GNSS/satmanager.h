@@ -8,6 +8,7 @@
 #include <GNSS/UBX/AID/ubxframeaid_eph.h>
 #include <serialmanager.h>
 #include <Utils/mathphy.h>
+#include <Eigen/Dense>
 #include <cmap.h>
 
 
@@ -40,11 +41,17 @@ namespace GNSS
 
         void updatePos();
 
+        Eigen::Vector3d calcCartesianSatPos(double theta1, double theta2, double theta3, double rk);
+
         double solveKepler(double Mk, double e);
+
+        double solveKepler2(double Mk, double e);
+
         double keplerEccFunction(double Mk, double e, double x)
         {
             return Mk + e*sin(x) - x;
         }
+
         double keplerEccDerivative(double e, double x)
         {
             return e*cos(x) - 1;
