@@ -19,17 +19,17 @@ Item {
         Text{
             id:nbSat
             font.pointSize: fontSize
-            text: "There is " + tableau.rowCount + " visible satellites"
+            text: "Visible satellites: " + tableau.rowCount
         }
         Text{
             id:wN
             font.pointSize: fontSize
-            text: "The GPS week number is : " + weekNumber
+            text: "GPS week number: " + weekNumber
         }
         Text{
             id:time
             font.pointSize: fontSize
-            text:"It is : " + timeGMT + " GMT"
+            text:"Time: " + timeGMT + " GMT"
         }
         Text{
             id:latitude
