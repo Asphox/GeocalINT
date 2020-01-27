@@ -66,7 +66,6 @@ void SatManager::updateEphemeris()
 
 void SatManager::updatePos()
 {
-    std::cout << we << std::endl;
     if( m_detectedSatEphemeris.size() < 4 )
     {
         std::cerr << "Nombre sat insuffisant : " << m_detectedSatEphemeris.size() << "/4" << std::endl;
@@ -104,6 +103,7 @@ void SatManager::updatePos()
 
     for( auto& eph : m_detectedSatEphemeris )
     {
+        std::cout << std::endl << eph.getSVID() << std::endl;
         m0 = eph.getScaledM0();
         dn = eph.getScaledDN();
         a = eph.getScaledSqrtA()*eph.getScaledSqrtA();
@@ -121,31 +121,64 @@ void SatManager::updatePos()
         idot = eph.getScaledIDOT();
         toe = eph.getScaledTOE();
 
+        std::cout << std::hex << "toe:" << eph.getTOE() << std::endl;
+        std::cout << std::hex << "m0:" << eph.getM0() << std::endl;
+        std::cout << std::hex << "dn:" << eph.getDn() << std::endl;
+        std::cout << std::hex << "w:" << eph.getOMEGA() << std::endl;
+        std::cout << std::hex << "w0:" << eph.getOMEGA0() << std::endl;
+        std::cout << std::hex << "wdot:" << eph.getOMEGAP() << std::endl;
+        std::cout << std::hex << "i0:" << eph.getI0() << std::endl;
+        std::cout << std::hex << "idot:" << eph.getIDOT() << std::dec<< std::endl;
+
         //sans correction du clock sat bias
         Tk = m_currentGPSTime - toe;
+       // std::cout << "Tk:" << Tk << std::endl;
         if( Tk > 302400 )
             Tk -= 604800;
         else if( Tk < -302400 )
             Tk += 604800;
 
-        Mk = m0 + (sqrt(mu)/sqrt(pow(a,3))+dn)*Tk;
+        Mk = m0 + (sqrt(mu)/sqrt(pow(a,3))/*+dn*/)*Tk;
+       // std::cout << "Mk:" << Mk << std::endl;
 
         Ek = solveKepler2(Mk,e);
+       // std::cout << "Ek:" << Ek << std::endl;
 
-        //Vk = atan2(sqrt(1-e*e)*sin(Ek),(cos(Ek)-e));
-        Vk = atan2((sqrt(1-e*e)*sin(Ek)/(1-e*cos(Ek))),(cos(Ek)-e)/(1-e*cos(Ek)));
-        Uk = w + Vk + cuc*cos(2*(w+Vk)) + cus*sin(2*(w+Vk));
+        Vk = atan2(sqrt(1-e*e)*sin(Ek),(cos(Ek)-e));
+       // std::cout << "Vk:" << Vk << std::endl;
+        //Vk = atan2((sqrt(1-e*e)*sin(Ek)/(1-e*cos(Ek))),(cos(Ek)-e)/(1-e*cos(Ek)));
+        Uk = w + Vk/* + cuc*cos(2*(w+Vk)) + cus*sin(2*(w+Vk))*/;
+       // std::cout << "Uk:" << Uk << std::endl;
 
-        Rk = a*(1-e*cos(Ek)) + crc*cos(2*(w+Vk)) + crs*sin(2*(w+Vk));
+        Rk = a*(1-e*cos(Ek)) /*+ crc*cos(2*(w+Vk)) + crs*sin(2*(w+Vk))*/;
+        //std::cout << "Rk:" << Rk << std::endl;
 
-        Ik = i0 + idot*Tk + cic*cos(2*(w+Vk)) + cis*sin(2*(w+Vk));
+        Ik = i0 + idot*Tk /*+ cic*cos(2*(w+Vk)) + cis*sin(2*(w+Vk))*/;
 
         Lk = w0 + (wdot-we)*Tk - we*toe;
 
-        Vector3d temp = calcCartesianSatPos(-Lk,-Ik,-Uk,Rk);
+        Vector3d temp;
 
-        std::cout << std::endl << eph.getSVID() << std::endl;
-        std::cout << temp/1000.0 << std::endl;
+        double Xp = Rk*cos(Uk);
+        double Yp = Rk*sin(Uk);
+
+        double X = Xp*cos(Lk) - Yp*cos(Ik)*sin(Lk);
+        double Y = Xp*sin(Lk) + Yp*cos(Ik)*cos(Lk);
+        double Z = Yp*sin(Ik);
+
+        double lat = asin(Z/temp.norm())*180.0/M_PI;
+        double lon = atan2(Y,X)*180.0/M_PI;
+
+        if( lon > 180.0 ) lon -= 360.0;
+        if( lon < -180.0) lon += 360.0;
+
+        temp = {X,Y,Z};
+
+            std::cout << temp/1000.0 << std::endl;
+            std::cout << "norm:" << temp.norm()/1000.0 << std::endl;
+            std::cout << "lat:" << asin(Z/temp.norm())*180.0/M_PI << std::endl;
+            std::cout << "lon:" << lon << std::endl;
+
      }
 
 
@@ -153,7 +186,7 @@ void SatManager::updatePos()
 
 double SatManager::solveKepler(double Mk, double e)
 {
-    double Ek = 1;
+    double Ek = 0;
     double Y = 0.0;
 
     do
@@ -167,7 +200,7 @@ double SatManager::solveKepler(double Mk, double e)
 
 double SatManager::solveKepler2(double Mk, double e)
 {
-    double Ek = Mk;
+    double Ek = 0;
     for(int i=0; i<10; i++)
     {
         Ek = Mk + e*sin(Ek);
