@@ -99,6 +99,11 @@ void SatManager::updatePos()
     double idot = 0;
     double toe = 0;
 
+    double phik = 0;
+    double du = 0;
+    double dr = 0;
+    double di = 0;
+
     std::vector<Vector3d> cartesianSatsPos;
 
     for( auto& eph : m_detectedSatEphemeris )
@@ -121,64 +126,46 @@ void SatManager::updatePos()
         idot = eph.getScaledIDOT();
         toe = eph.getScaledTOE();
 
-        std::cout << std::hex << "toe:" << eph.getTOE() << std::endl;
-        std::cout << std::hex << "m0:" << eph.getM0() << std::endl;
-        std::cout << std::hex << "dn:" << eph.getDn() << std::endl;
-        std::cout << std::hex << "w:" << eph.getOMEGA() << std::endl;
-        std::cout << std::hex << "w0:" << eph.getOMEGA0() << std::endl;
-        std::cout << std::hex << "wdot:" << eph.getOMEGAP() << std::endl;
-        std::cout << std::hex << "i0:" << eph.getI0() << std::endl;
-        std::cout << std::hex << "idot:" << eph.getIDOT() << std::dec<< std::endl;
-
-        //sans correction du clock sat bias
+        //Temps dans l'ephemeride
         Tk = m_currentGPSTime - toe;
-       // std::cout << "Tk:" << Tk << std::endl;
+
         if( Tk > 302400 )
             Tk -= 604800;
         else if( Tk < -302400 )
             Tk += 604800;
 
-        Mk = m0 + (sqrt(mu)/sqrt(pow(a,3))/*+dn*/)*Tk;
-       // std::cout << "Mk:" << Mk << std::endl;
-
+        //Anomalie moyenne
+        Mk = m0 + (sqrt(mu)/sqrt(pow(a,3))+dn)*Tk;
+        //Anomalie eccentricité avec resolution Kepler
         Ek = solveKepler2(Mk,e);
-       // std::cout << "Ek:" << Ek << std::endl;
+        //Vraie anomalie
+        Vk = atan2((sqrt(1-e*e)*sin(Ek)/(1-e*cos(Ek))),(cos(Ek)-e)/(1-e*cos(Ek)));
 
-        Vk = atan2(sqrt(1-e*e)*sin(Ek),(cos(Ek)-e));
-       // std::cout << "Vk:" << Vk << std::endl;
-        //Vk = atan2((sqrt(1-e*e)*sin(Ek)/(1-e*cos(Ek))),(cos(Ek)-e)/(1-e*cos(Ek)));
-        Uk = w + Vk/* + cuc*cos(2*(w+Vk)) + cus*sin(2*(w+Vk))*/;
-       // std::cout << "Uk:" << Uk << std::endl;
+        phik = w+Vk;
+        //Corrections harmoniques
+        du = cuc*cos(2*phik) + cus*sin(2*phik);
+        dr = crc*cos(2*phik) + crs*sin(2*phik);
+        di = cic*cos(2*phik) + cis*sin(2*phik);
 
-        Rk = a*(1-e*cos(Ek)) /*+ crc*cos(2*(w+Vk)) + crs*sin(2*(w+Vk))*/;
-        //std::cout << "Rk:" << Rk << std::endl;
 
-        Ik = i0 + idot*Tk /*+ cic*cos(2*(w+Vk)) + cis*sin(2*(w+Vk))*/;
+        Uk = phik + du;
+        Rk = a*(1-e*cos(Ek)) + dr;
+        Ik = i0 + idot*Tk + di;
 
+        //Inclinaison
         Lk = w0 + (wdot-we)*Tk - we*toe;
-
-        Vector3d temp;
 
         double Xp = Rk*cos(Uk);
         double Yp = Rk*sin(Uk);
 
+        //Position du sat dans le referentiel WGS 84 ECEF
         double X = Xp*cos(Lk) - Yp*cos(Ik)*sin(Lk);
         double Y = Xp*sin(Lk) + Yp*cos(Ik)*cos(Lk);
         double Z = Yp*sin(Ik);
 
-        double lat = asin(Z/temp.norm())*180.0/M_PI;
-        double lon = atan2(Y,X)*180.0/M_PI;
-
-        if( lon > 180.0 ) lon -= 360.0;
-        if( lon < -180.0) lon += 360.0;
-
-        temp = {X,Y,Z};
-
-            std::cout << temp/1000.0 << std::endl;
-            std::cout << "norm:" << temp.norm()/1000.0 << std::endl;
-            std::cout << "lat:" << asin(Z/temp.norm())*180.0/M_PI << std::endl;
-            std::cout << "lon:" << lon << std::endl;
-
+            std::cout << "X : " << X/1000.0 << std::endl;
+            std::cout << "Y : " << Y/1000.0 << std::endl;
+            std::cout << "Z : " << Z/1000.0 << std::endl;
      }
 
 
